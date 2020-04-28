@@ -9,15 +9,25 @@ app.set('view engine', 'ejs');
 
 
 /* The handler for the DEFAULT route */
-app.get('*', function(req, res){
+app.get('/', function(req, res){
    res.render('index'); 
+});
+
+
+app.get('/login', function(req, res){
+   res.render('login'); 
+});
+
+
+app.get('/createAccount', function(req, res){
+   res.render('createAccount'); 
 });
 
 
 
 /* The handler for undefined routes */
 app.get('*', function(req, res){
-   res.render('error'); 
+   res.render('index'); 
 });
 
 /* Start the application server */
