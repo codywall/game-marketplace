@@ -40,6 +40,18 @@ app.get('*', function (req, res) {
   res.render('index');
 });
 
+function dbConnection() {
+  let conn = mysql.createConnection({
+    host: 'un0jueuv2mam78uv.cbetxkdyhwsb.us-east-1.rds.amazonaws.com',
+    user: 'hltrq8vzmqp59xkg',
+    password: 'jwcyw01pmul3jelj',
+    database: 'test',
+  }); //createConnection
+
+  return conn;
+}
+
+
 /* Start the application server */
 app.listen(process.env.PORT || 8080, process.env.IP, function () {
   console.log('Express server is running...');
