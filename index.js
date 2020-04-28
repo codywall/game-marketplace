@@ -19,6 +19,10 @@ app.get('/createAccount', function (req, res) {
   res.render('createAccount');
 });
 
+app.get('/admin', function(req,res){
+   res.render('admin');
+});
+
 /* The handler for undefined routes */
 app.get('*', function (req, res) {
   res.render('index');
