@@ -1,6 +1,8 @@
 /* Require external APIs and start our application instance */
 var express = require('express');
 var app = express();
+var request = require('request');
+
 
 /* Configure our server to read public folder and ejs files */
 app.use(express.static('public'));
@@ -23,6 +25,16 @@ app.get('/admin', function(req,res){
    res.render('admin');
 });
 
+app.get('/results', function(req, res){
+	let game = req.query.search;
+	const url = `https://api.rawg.io/api/games?search=${game}`;
+	request(url, function(error, response, data){
+		if (!error && response.statusCode == 200){
+			data = JSON.parse(data);
+			res.render('results', {games: data.results});
+		}
+	});
+});
 /* The handler for undefined routes */
 app.get('*', function (req, res) {
   res.render('index');

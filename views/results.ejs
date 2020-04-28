@@ -1,0 +1,17 @@
+<div class='container'>
+    <div class='jumbotron'>
+        <h1> SEARCH RESULTS </h1>
+        <button class='btn btn-info' onclick='location.href="/";'>Search Again</button>
+    </div>
+
+    <div id="results__wrapper" class="row">
+            <% games.forEach(function(game) { %>
+                <div class="img__wrapper">
+                    <img class="imgs" src='<%= game.background_image %>' width='250'>
+                    <p class="imgs__caption"><%= game.name %></p>
+                </div>
+            <% }); %>
+    </div>
+
+
+</div>

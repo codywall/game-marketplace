@@ -20,7 +20,7 @@
         integrity="sha384-Smlep5jCw/wG7hdkwQ/Z5nLIefveQRIY9nfy6xoR1uRYBtpZgI6339F5dgvm/e9B" crossorigin="anonymous">
 
     <!-- Custom styles for this template -->
-    <<link  href="css/login.css"rel="stylesheet" type="text/css" />
+    <link  href="css/login.css"rel="stylesheet" type="text/css" />
     
 </head>
 
@@ -41,14 +41,14 @@
             <h1 class="display-4">Admin Page!!</h1>
         </div>
         
-        <form class="m-3" id="searchform">
+    <form class="m-3" id="searchform" action="/results" method="GET">
       <div class="input-group">
-        <input type="text" class="form-control" placeholder="What are you looking for?" id="keyword" >
-        <div class="input-group-append">
+        <input type="text" class="form-control" name="search" placeholder="Which game would you like to add?" id="keyword" >
+        <div class="input-group-append row">
           <button type="submit" class="btn btn-primary">Search</button>
         </div>
       </div>
-    </form>
+    </form> 
         
         <form class="m-3 w-50" id="admin_page">
             <div id="product-grid" class="item-holder m-5 p-3">
