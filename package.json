@@ -14,20 +14,14 @@
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/espi2040/FinalProject-/issues"
+    "url": "https://github.com/codywall/FinalProject-/issues"
   },
-  "homepage": "https://github.com/espi2040/FinalProject-#readme",
+  "homepage": "https://github.com/codywall/FinalProject-#readme",
   "dependencies": {
-<<<<<<< HEAD
     "bcrypt": "^4.0.1",
     "ejs": "^3.1.2",
     "express": "^4.17.1",
     "express-session": "^1.17.1",
-=======
-    "body-parser": "^1.19.0",
-    "ejs": "^3.1.2",
-    "express": "^4.17.1",
->>>>>>> f64620ba7cfa5b45db5e84e9af4d8175b5d5de4e
     "mysql": "^2.18.1",
     "request": "^2.88.2",
     "save": "^2.4.0"
