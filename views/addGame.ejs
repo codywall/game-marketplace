@@ -33,62 +33,48 @@
     </nav>
     <div class="d-flex flex-column align-items-center">
         <div class="d-flex flex-column align-items-center m-5">
-            <h1 class="display-4">Your Game Listings</h1>
+            <h1 class="display-4">Add a game listing</h1>
         </div>
-        <button class="btn btn-primary" onclick=location.href="/addGame">+ Add listing</button>
-        
-        <div class="m-3 w-50" id="admin_page">
-            <div id="product-grid" class="item-holder m-5 p-3">
-              <div class="store-item">
-        
-              </div>
-              <div class="store-item">
-        
-              </div>
-              <div class="store-item">
-        
-              </div>
-              <div class="store-item">
-        
-              </div>
-              <div class="store-item">
-        
-              </div>
-              <div class="store-item">
-        
-              </div>
-              <div class="store-item">
-        
-              </div>
-              <div class="store-item">
-        
-              </div>
-              <div class="store-item">
-        
-              </div>
-              <div class="store-item">
-        
-              </div>
-              <div class="store-item">
-        
-              </div>
-              <div class="store-item">
-        
-              </div>
-              <div class="store-item">
-        
-              </div>
-              <div class="store-item">
-        
-              </div>
-              <div class="store-item">
-        
+        <div class="row">
+            <form class="m-3" id="searchform" action="/results" method="GET">
+            <div class="input-group">
+              <input type="text" class="form-control" name="search" placeholder="Which game would you like to add?" id="keyword" >
+              <div class="input-group-append row">
+                <button type="submit" class="btn btn-primary">Search</button>
               </div>
             </div>
+          </form>  
+        </div>
+        
+        <div class="col-9" id="admin_page">
+            
+        </div>
           
         </div>
     </div>
 
 </body>
 
+</html>
+<body>
+<div class='container'>
+
+    <form method="POST">
+        
+        Title: <input type="text" name="title" required><br>    
+        Image URL: <input type= "text" name="imageURL" required><br>
+        Genre: <input type="text" name="genre" required><br>
+        Price: <input type="text" name="price" required><br>
+        Your username: <input type="text" name="username" required><br>
+       <br>
+        <button>Add game</button>
+    
+        <%= typeof(message) != "undefined"?message:"" %>
+        
+    </form>   
+    </div> -->
+
+
+</div>
+</body>
 </html>
