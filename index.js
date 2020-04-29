@@ -63,7 +63,7 @@ function insertGame(body, group){
         
       let sql = `INSERT INTO listings
                         (title, genre, image_url, price, seller_username)
-                         VALUES (${body.title}, ${body.genre}, ${body.imageURL}, ${body.price}, ${body.username})`;
+                         VALUES ('${body.title}', '${body.genre}', '${body.imageURL}', ${body.price}, '${body.username}')`;
         
       conn.query(sql, function (err, rows, fields) {
               if (err) throw err;
