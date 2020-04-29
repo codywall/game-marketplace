@@ -25,13 +25,13 @@ app.get('/admin', function(req,res){
    res.render('admin');
 });
 
-app.get('/results', function(req, res){
+app.get('/addGame', function(req, res){
 	let game = req.query.search;
 	const url = `https://api.rawg.io/api/games?search=${game}`;
 	request(url, function(error, response, data){
 		if (!error && response.statusCode == 200){
 			data = JSON.parse(data);
-			res.render('results', {games: data.results});
+			res.render('addGame', {games: data.results});
 		}
 	});
 });

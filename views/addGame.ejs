@@ -31,6 +31,17 @@
         <button class='btn btn-info' onclick='location.href="/";'>Search Again</button>
     </div>
 
+    <div class="row">
+        <form class="m-3" id="searchform" action="/results" method="GET">
+        <div class="input-group">
+          <input type="text" class="form-control" name="search" placeholder="Which game would you like to add?" id="keyword" >
+          <div class="input-group-append row">
+            <button type="submit" class="btn btn-primary">Search</button>
+          </div>
+        </div>
+      </form> 
+    </div>
+
     <div id="results__wrapper" class="row">
             <% games.forEach(function(game) { %>
                 <div class="img__wrapper">
