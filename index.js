@@ -63,11 +63,9 @@ function insertGame(body, group){
         
       let sql = `INSERT INTO listings
                         (title, genre, image_url, price, seller_username)
-                         VALUES (?,?,?,?,?)`;
+                         VALUES (${body.title}, ${body.genre}, ${body.imageURL}, ${body.price}, ${body.username})`;
         
-      let params = [body.title, body.genre, body.imageURL, body.price, body.username];
-        
-      conn.query(sql, params, function (err, rows, fields) {
+      conn.query(sql, function (err, rows, fields) {
               if (err) throw err;
               conn.end();
               resolve(rows);
