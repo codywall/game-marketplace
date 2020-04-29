@@ -35,6 +35,44 @@ app.get('/addGame', function(req, res){
 		}
 	});
 });
+
+app.post("/addGame", async function(req, res){
+  let group = req.body.group ? req.body.group : ""
+  let rows = await insertGame(req.body);
+  console.log(rows);
+  let message = "Listing was not added to the database.";
+  if (rows.affectedRows > 0) {
+    message= "Listing successfully added!";
+  }
+  res.render("addGame", {"message":message});
+});
+
+function insertGame(body, group){
+   
+  let conn = dbConnection();
+    
+    return new Promise(function(resolve, reject){
+        conn.connect(function(err) {
+          if (err) throw err;
+          console.log("Connected!: insertGame");
+        
+          let sql = `INSERT INTO listings
+                        (title, genre, image_url, price, seller_username)
+                         VALUES (?,?,?,?,?)`;
+        
+          let params = [body.title, body.genre, body.imageURL, body.price, body.username];
+        
+          conn.query(sql, params, function (err, rows, fields) {
+              if (err) throw err;
+              conn.end();
+              resolve(rows);
+          });
+          console.log(sql);
+        
+        });
+    });
+}
+
 /* The handler for undefined routes */
 app.get('*', function (req, res) {
   res.render('index');

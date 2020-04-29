@@ -25,31 +25,64 @@
 </head>
 
 <body>
-<div class='container'>
-    <div class='jumbotron'>
-        <h1> SEARCH RESULTS </h1>
-        <button class='btn btn-info' onclick='location.href="/";'>Search Again</button>
-    </div>
-
-    <div class="row">
-        <form class="m-3" id="searchform" action="/results" method="GET">
-        <div class="input-group">
-          <input type="text" class="form-control" name="search" placeholder="Which game would you like to add?" id="keyword" >
-          <div class="input-group-append row">
-            <button type="submit" class="btn btn-primary">Search</button>
-          </div>
+    <nav class="navbar sticky-topy" style="background-color: #e3f2fd;">
+        <a type="button" class="btn btn-outline-secondary" href="/" id="home">Home</a> 
+        <div class="ml-auto">
+            <button type="button" class="btn btn-outline-secondary">Log Out</button>
         </div>
-      </form> 
+    </nav>
+    <div class="d-flex flex-column align-items-center">
+        <div class="d-flex flex-column align-items-center m-5">
+            <h1 class="display-4">Add a game listing</h1>
+        </div>
+        <div class="row">
+            <form class="m-3" id="searchform" action="/results" method="GET">
+            <div class="input-group">
+              <input type="text" class="form-control" name="search" placeholder="Which game would you like to add?" id="keyword" >
+              <div class="input-group-append row">
+                <button type="submit" class="btn btn-primary">Search</button>
+              </div>
+            </div>
+          </form>  
+        </div>
+        
+        <div class="col-9" id="admin_page">
+            
+        </div>
+          
+        </div>
     </div>
 
-    <div id="results__wrapper" class="row">
-            <% games.forEach(function(game) { %>
+</body>
+
+</html>
+<body>
+<div class='container'>
+
+    <form method="POST">
+        
+        Title: <input type="text" name="title" required><br>    
+        Image URL: <input type= "text" name="imageURL" required><br>
+        Genre: <input type="text" name="genre" required><br>
+        Price: <input type="text" name="price" required><br>
+        Your username: <input type="text" name="price" required><br>
+       <br>
+        <button>Add game</button>
+    
+        <%= typeof(message) != "undefined"?message:"" %>
+        
+    </form>   
+
+
+
+    <!-- <div id="results__wrapper" class="row">
+            <!-- <% games.forEach(function(game) { %>
                 <div class="img__wrapper">
                     <img class="imgs" src='<%= game.background_image %>' width='250'>
                     <p class="imgs__caption"><%= game.name %></p>
                 </div>
-            <% }); %>
-    </div>
+            <% }); %> -->
+    </div> -->
 
 
 </div>
