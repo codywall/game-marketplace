@@ -36,10 +36,13 @@
         <div class="d-flex flex-column align-items-center m-5">
             <h1 class="display-4">Account Login</h1>
         </div>
-        <form class="m-3 w-50" id="login_form">
-            <input type="text" id="UsernameInput" class="form-control my-3" placeholder="Username">
-            <input type="text" id="PasswordInput" class="form-control my-3" placeholder="Password">
-            <button type="submit" class="btn btn-primary mx-3">Submit</button>
+        <%if (typeof error != 'undefined' && error){%>
+        <h6 style="color: red">Incorect Login Credentials</h6>
+        <% } %>
+        <form class="m-3 w-50" action='/login' method="POST">
+            <input type="text" name="username" id="username" class="form-control my-3" placeholder="Username">
+            <input type="text" name="password"id="password" class="form-control my-3" placeholder="Password">
+            <button class="btn btn-primary mx-3">Submit</button>
             <a href="/createAccount">Create Account</a>
         </form>
     </div>

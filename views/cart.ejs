@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <title>Online Store</title>
+
+  <!-- Bootstrap core JavaScript -->
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js"
+    integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/popper.js@1.14.4/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
+    integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+    crossorigin="anonymous"></script>
+
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/css/bootstrap.min.css"
+    integrity="sha384-Smlep5jCw/wG7hdkwQ/Z5nLIefveQRIY9nfy6xoR1uRYBtpZgI6339F5dgvm/e9B" crossorigin="anonymous">
+  <!-- Custom styles for this template -->
+  <<link  href="css/index.css"rel="stylesheet" type="text/css" />
+  <!-- Material Icons -->
+  <link href="https://fonts.googleapis.com/css?family=Material+Icons&display=swap" rel="stylesheet">
+</head>
+
+<!-- Nav Bar -->
+<nav class="navbar sticky-top">
+  <a type="button" class="btn btn-outline-secondary" href="index">Home</a>
+
+  <div class="ml-auto">
+    <button type="button" class="btn btn-outline-secondary">This is another button</button>
+  </div>
+</nav>
+
+<div class="px-4 px-lg-0">
+  <!-- Heading -->
+  <div class="container py-5 text-center">
+    <h1 class="display-4">Shopping Cart</h1>
+  </div> <!-- End of Heading -->
+
+  <!-- Padding Bottom 5 div -->
+  <div class="pb-5">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12 p-5 bg-light rounded shadow-sm mb-5">
+
+          <!-- Shopping Cart table -->
+          <div class="table-responsive">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th scope="col" class="border-0 bg-info">
+                    <div class="p-2 px-3 text-uppercase">Product</div>
+                  </th>
+                  <th scope="col" class="border-0 bg-info">
+                    <div class="py-2 text-uppercase">Price</div>
+                  </th>
+                  <th scope="col" class="border-0 bg-info">
+                    <div class="py-2 text-uppercase">Quantity</div>
+                  </th>
+                  <th scope="col" class="border-0 bg-info">
+                    <div class="py-2 text-uppercase">Remove</div>
+                  </th>
+                </tr>
+              </thead>
+              <tbody id="product_list">
+
+              </tbody>
+            </table>
+          </div>
+          <!-- End of Shopping Cart -->
+        </div>
+      </div>
+
+      <!-- Order Summary div -->
+      <div class="row py-5 p-4 bg-light rounded shadow-sm">
+        <div class="col-lg-12">
+          <div class="bg-info rounded-pill px-4 py-3 text-uppercase font-weight-bold">Order summary </div>
+          <div class="p-4">
+            <p class="font-italic mb-4">Shipping and additional costs are calculated based on values you have entered.
+            </p>
+            <ul class="list-unstyled mb-4">
+              <li class="d-flex justify-content-between py-3 border-bottom font-weight-bold"><span
+                  class="text-muted">Order Subtotal
+                </span><span>$<span id="subtotal">0.00</span></span></li>
+              <li class="d-flex justify-content-between py-3 border-bottom font-weight-bold"><span
+                  class="text-muted">Shipping and
+                  handling</span><span>$<span id="shipping">0.00</span></span></li>
+              <li class="d-flex justify-content-between py-3 border-bottom font-weight-bold"><span
+                  class="text-muted">Tax</span><span>$<span id="taxes">0.00</span></span></li>
+              <li class="d-flex justify-content-between py-3 border-bottom font-weight-bold"><span
+                  class="text-muted">Total</span>
+                <h5 class="font-weight-bold"><span>$</span><span id="total">0.00</span></h5>
+              </li>
+            </ul><button type="button" id="checkout-button" class="btn btn-dark rounded-pill py-2 btn-block">Procceed to
+              checkout</a>
+          </div>
+        </div>
+      </div> <!-- End of Order Summary -->
+
+    </div> <!-- End of Container -->
+  </div> <!-- End of Padding Bottom 5 div -->
+</div>
+
+</html>
