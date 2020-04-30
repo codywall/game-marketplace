@@ -35,13 +35,13 @@
         <div class="d-flex flex-column align-items-center m-5">
             <h1 class="display-4">Create Account</h1>
         </div>
-        <form class="m-3 w-50" id="CreateAccount">
-            <input type="text" id="FirstNameInput" class="form-control my-3" placeholder="First Name">
-            <input type="text" id="LastNameInput" class="form-control my-3" placeholder="Last Name">
-            <input type="text" id="UsernameInput" class="form-control my-3" placeholder="Username">
-            <input type="text" id="PasswordInput" class="form-control my-3" placeholder="Password">
-            <input type="text" id="RepeatPasswordInput" class="form-control my-3" placeholder="Repeat Password">
-            <button type="submit" class="btn btn-primary mx-3">Submit</button>
+        <form class="m-3 w-50" action"/createAccount" method="POST">
+            <input type="text" id="firstName" name="firstName" class="form-control my-3" placeholder="First Name">
+            <input type="text" id="lastName"  name="lastName" class="form-control my-3" placeholder="Last Name">
+            <input type="text" id="username"  name="username" class="form-control my-3" placeholder="Username">
+            <input type="text" id="password"  name="password" class="form-control my-3" placeholder="Password">
+            <input type="text" id="repeatPassword"  name="repeatPassword"class="form-control my-3" placeholder="Repeat Password">
+            <button  class="btn btn-primary mx-3">Submit</button>
             <a href="/login">Log In</a>
         </form>
     </div>
