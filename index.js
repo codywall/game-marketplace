@@ -81,7 +81,7 @@ app.post("/addGame", async function(req, res){
   res.render("addGame", {"message":message});
 });
 
-function insertGame(body, group){
+function insertGame(body){
   let conn = dbConnection();
   return new Promise(function(resolve, reject){
     conn.connect(function(err) {

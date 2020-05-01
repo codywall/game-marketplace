@@ -4,7 +4,6 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
     <title>Online Store</title>
 
     <!-- Bootstrap core JavaScript -->
@@ -20,8 +19,7 @@
         integrity="sha384-Smlep5jCw/wG7hdkwQ/Z5nLIefveQRIY9nfy6xoR1uRYBtpZgI6339F5dgvm/e9B" crossorigin="anonymous">
 
     <!-- Custom styles for this template -->
-    <link  href="css/login.css"rel="stylesheet" type="text/css" />
-    
+    <link  href="css/addgame.css"rel="stylesheet" type="text/css" />
 </head>
 
 <body>
@@ -38,46 +36,41 @@
         <div class="row">
             <form class="m-3" id="searchform" action="addGame" method="GET">
             <div class="input-group">
-              <input type="text" class="form-control" name="search" placeholder="Which game would you like to add?" id="keyword" >
+              <input type="text" class="form-control" name="search" placeholder="Find a game..." id="keyword" >
               <div class="input-group-append row">
                 <button type="submit" class="btn btn-primary">Search</button>
               </div>
             </div>
           </form>  
         </div>
-        
-        <div class="col-9" id="admin_page">
-            
-        </div>
-          
+    </div>
+</div>
+<div class='container'>
+                    <div class="col-9" id="admin_page">
+            <form method="POST">
+                <div class="form-group">
+                    <label for="title">Title</label>
+                    <input class="form-control" type="text" name="title" value="<%= games[0].name ? games[0].name : '' %>" required readonly>
+                    <label for="imageURL">Image URL</label>   
+                    <input class="form-control" type= "text" name="imageURL" value="<%= games[0].background_image ? games[0].background_image : '' %>" reqired readonly>
+                    <img style="max-width: 180px;" alt='' src="<%= games[0].background_image ? games[0].background_image : '' %>">
+                </div>
+                <div class="form-group">
+                    <label for="genre">Genre</label>
+                    <input class="form-control" type="text" name="genre" value="<%= games[0].genres[0] ? games[0].genres[0].name : '' %>" required>
+                    <label for="price">Price</label>
+                    <input class="form-control" type="text" name="price" required>
+                    <label for="username">Username</label>
+                    <input class="form-control" type="text" name="username" required>
+                </div>
+                <button class="btn btn-success">Post listing</button>
+                <a href="/admin">Back to admin</a>
+            </form>   
         </div>
     </div>
-
-</body>
-
-</html>
-<body>
-<div class='container'>
-    
-    <form method="POST">
-        <div class="form-group">
-            <label for="title">Title</label>
-            <input class="form-control" type="text" name="title" value="<%= games[0].name ? games[0].name : '' %>" required>
-            <label for="imageURL">Image URL</label>   
-            <input class="form-control" type= "text" name="imageURL" value="<%= games[0].background_image ? games[0].background_image : '' %>" required>
-            <label for="genre">Genre</label>
-            <input class="form-control" type="text" name="genre" value="<%= games[0].genres[0] ? games[0].genres[0].name : '' %>" required>
-            <label for="price">Price</label>
-            <input class="form-control" type="text" name="price" required>
-            <label for="username">Username</label>
-            <input class="form-control" type="text" name="username" required>
-        </div>
-        <button class="btn btn-success">Post listing</button>
-    </form>   
-</div>
-
-<%= typeof(message) != "undefined"?message:"" %>
-
+        
+        <%= typeof(message) != "undefined"?message:"" %>
+        
         </div>
     </div>
 </body>
