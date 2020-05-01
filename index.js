@@ -26,7 +26,16 @@ app.set('view engine', 'ejs');
 
 /* The handler for the DEFAULT route */
 app.get('/', function (req, res) {
-  res.render('index');
+  let num1 = Math.floor(Math.random() * Math.floor(388570));
+  let num2 = Math.floor(Math.random() * Math.floor(388570));
+  let num3 = Math.floor(Math.random() * Math.floor(388570));
+  let num4 = Math.floor(Math.random() * Math.floor(388570));
+  let num5 = Math.floor(Math.random() * Math.floor(388570));
+  let url = `https://api.rawg.io/api/games?search=${num1}`;
+  console.log(url);
+
+  res.render('index', {num1: num1, num2: num2, num3: num3, num4: num4, num5: num5});
+
 });
 
 app.get('/login', function (req, res) {
@@ -38,7 +47,16 @@ app.get('/createAccount', function (req, res) {
 });
 
 app.get('/admin', function(req,res){
-   res.render('admin');
+  let user = req.session.user;
+   res.render('admin', {user});
+   console.log(user);
+});
+
+app.get("/logout", function(req,res){
+  console.log("user has been logged out!");
+  res.render("login");
+  req.session.destroy();
+  
 });
 
 app.get('/addGame', function(req, res){
@@ -51,6 +69,7 @@ app.get('/addGame', function(req, res){
 		}
 	});
 });
+
 
 app.post("/addGame", async function(req, res){
   let rows = await insertGame(req.body);
@@ -83,6 +102,8 @@ function insertGame(body, group){
         });
     });
 }
+
+
 app.get('/cart', function(req,res){
    res.render('cart');
 });
@@ -139,6 +160,8 @@ app.post("/login", async function(req,res){
   let hashedPassword = users.length >0? users[0].password :'';
   let passwordMatch = await checkPassword(req.body.password,hashedPassword);
   if(passwordMatch){
+    req.session.authenticated = true;
+    req.session.user = users[0].username;
     res.render("index");
   }else{
     res.render("login",{error:true});
@@ -150,6 +173,8 @@ app.post("/login", async function(req,res){
   console.log(users);
 
 });
+
+
 
 function userexist(username){
   let stmt ='SElECT * FROM users where username=?';
@@ -171,4 +196,9 @@ function checkPassword(password,hash){
       resolve(result)
     });
   });
+}
+
+function isAuthenticated(req, res, next){
+  if(!req.session.authenticated) res.redirect("/login");
+  else next();
 }
