@@ -194,7 +194,16 @@ app.post("/login", async function(req,res){
   if(passwordMatch){
     req.session.authenticated = true;
     req.session.user = req.body.username;
-    res.render("index");
+    let num1 = Math.floor(Math.random() * Math.floor(388570));
+    let num2 = Math.floor(Math.random() * Math.floor(388570));
+    let num3 = Math.floor(Math.random() * Math.floor(388570));
+    let num4 = Math.floor(Math.random() * Math.floor(388570));
+    let num5 = Math.floor(Math.random() * Math.floor(388570));
+    let url = `https://api.rawg.io/api/games?search=${num1}`;
+    console.log(url);
+    let games = await getAllGames();
+    res.render('index', {num1: num1, num2: num2, num3: num3, num4: num4, num5: num5, "games": games});
+    
   }else{
     res.render("login",{error:true});
   }
