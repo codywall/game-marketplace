@@ -1,7 +1,5 @@
 ## Project members:
-Christian Jimenez | chrjimenez@csumb.edu
-Rodrigo Espinoza | rodespinoza@csumb.edu
-Cody Wall | cwall@csumb.edu 
+Rodrigo Espinoza | Christian Jimenez | Cody Wall
 
 ## Project description:
 A platform for people to trade their video games to others. We use a video game database API (RAWG) to make it easy for people to list their games, auto filling the rest of the information once they type the title. Once a seller lists a game, buyers will be able to find it by searching available games.
