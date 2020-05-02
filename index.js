@@ -70,13 +70,15 @@ app.get('/addGame', function(req, res){
 app.post("/addGame", async function(req, res){
   let rows = await insertGame(req.body);
   console.log(rows);
-  let message = "Listing was not added to the database.";
+  let message = { text: "Listing was not added to the database." };
+  message.success = false;
   if (rows.affectedRows > 0) {
-    message= "Listing successfully added!";
+    message.text = "Listing successfully added!";
+    message.success = true;
   }
   let games = await getGames(req.body.username);
   console.log('fetching your games...')
-  res.render("admin", {"games": games});
+  res.render("admin", {"games": games, "message": message});
 });
 
 function getAllGames() {
