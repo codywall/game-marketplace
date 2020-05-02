@@ -38,6 +38,8 @@ app.get('/', async function (req, res) {
 
 });
 
+
+
 app.get('/login', function (req, res) {
   res.render('login');
 });
@@ -59,6 +61,11 @@ app.get("/logout", function(req,res){
   res.render("login");
   req.session.destroy();
 });
+
+app.get('/edit', function (req, res) {
+  res.render('edit');
+});
+
 
 app.get('/addGame', function(req, res){
 	let game = req.query.search;
@@ -202,6 +209,7 @@ app.post("/login", async function(req,res){
     let url = `https://api.rawg.io/api/games?search=${num1}`;
     console.log(url);
     let games = await getAllGames();
+    let name = await getAllGames();
     res.render('index', {num1: num1, num2: num2, num3: num3, num4: num4, num5: num5, "games": games});
     
   }else{
