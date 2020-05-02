@@ -26,15 +26,9 @@ app.set('view engine', 'ejs');
 
 /* The handler for the DEFAULT route */
 app.get('/', async function (req, res) {
-  let num1 = Math.floor(Math.random() * Math.floor(388570));
-  let num2 = Math.floor(Math.random() * Math.floor(388570));
-  let num3 = Math.floor(Math.random() * Math.floor(388570));
-  let num4 = Math.floor(Math.random() * Math.floor(388570));
-  let num5 = Math.floor(Math.random() * Math.floor(388570));
-  let url = `https://api.rawg.io/api/games?search=${num1}`;
-  console.log(url);
   let games = await getAllGames();
-  res.render('index', {num1: num1, num2: num2, num3: num3, num4: num4, num5: num5, "games": games});
+  console.log('fetching all games...')
+  res.render("index", {"games": games});
 
 });
 
@@ -69,11 +63,12 @@ app.get('/edit', function (req, res) {
 
 app.get('/addGame', function(req, res){
 	let game = req.query.search;
+  let user = req.session.user;
 	const url = `https://api.rawg.io/api/games?search=${game}`;
 	request(url, function(error, response, data){
-		if (!error && response.statusCode == 200){
+    if (!error && response.statusCode == 200) {
 			data = JSON.parse(data);
-			res.render('addGame', {games: data.results});
+			res.render('addGame', {"games": data.results, "user": user});
 		}
 	});
 });
@@ -86,7 +81,9 @@ app.post("/addGame", async function(req, res){
   if (rows.affectedRows > 0) {
     message= "Listing successfully added!";
   }
-  res.render("addGame");
+  let games = await getGames(req.body.username);
+  console.log('fetching your games...')
+  res.render("admin", {"games": games});
 });
 
 function getAllGames() {
