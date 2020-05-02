@@ -20,32 +20,33 @@
         integrity="sha384-Smlep5jCw/wG7hdkwQ/Z5nLIefveQRIY9nfy6xoR1uRYBtpZgI6339F5dgvm/e9B" crossorigin="anonymous">
 
     <!-- Custom styles for this template -->
-    <link  href="css/login.css"rel="stylesheet" type="text/css" />
+    <link  href="css/admin.css"rel="stylesheet" type="text/css" />
     
 </head>
 
 <body>
-    <nav class="navbar sticky-topy" style="background-color: #e3f2fd;">
-        
-        <a type="button" class="btn btn-outline-secondary" href="/" id="home">Home</a>
-        
+    <nav class="navbar sticky-topy" style="background-color: #e3f2fd;">  
+        <a type="button" class="btn btn-outline-secondary" href="/" id="home">Home</a>  
         <div class="ml-auto">
                 <a type="button" class="btn btn-outline-secondary" href="/logout">Logging out</a>
-        </div>
-        
-        
-        
+        </div> 
     </nav>
     <div class="d-flex flex-column align-items-center">
         <div class="d-flex flex-column align-items-center m-5">
             <h1 class="display-4"> Admin Page!!</h1>
         </div>
         <button class="btn btn-primary" onclick=location.href="/addGame">+ Add listing</button>
-        </div>
-      </div>
-       
+        <div id="product-grid" class="item-holder m-5 p-3">
+            <% games.forEach(function(game) { %>
+                    <figure class="store-item">
+                        <img class="thumbnail" src="<%= game.image_url %>" alt="game image"/>
+                        <figcaption class="game-caption">
+                            <p><%= game.title %></p>
+                        </figcaption>
+                        <br>
+                    </figure>
+            <% }) %>
+        </div>    
     </div>
-
 </body>
-
 </html>

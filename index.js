@@ -25,7 +25,7 @@ app.use(express.urlencoded({extended: true}));
 app.set('view engine', 'ejs');
 
 /* The handler for the DEFAULT route */
-app.get('/', function (req, res) {
+app.get('/', async function (req, res) {
   let num1 = Math.floor(Math.random() * Math.floor(388570));
   let num2 = Math.floor(Math.random() * Math.floor(388570));
   let num3 = Math.floor(Math.random() * Math.floor(388570));
@@ -33,8 +33,8 @@ app.get('/', function (req, res) {
   let num5 = Math.floor(Math.random() * Math.floor(388570));
   let url = `https://api.rawg.io/api/games?search=${num1}`;
   console.log(url);
-
-  res.render('index', {num1: num1, num2: num2, num3: num3, num4: num4, num5: num5});
+  let games = await getAllGames();
+  res.render('index', {num1: num1, num2: num2, num3: num3, num4: num4, num5: num5, "games": games});
 
 });
 
@@ -46,17 +46,18 @@ app.get('/createAccount', function (req, res) {
   res.render('createAccount');
 });
 
-app.get('/admin', function(req,res){
+app.get('/admin', async function(req,res){
   let user = req.session.user;
-   res.render('admin', {user});
-   console.log(user);
+  let games = await getGames(user);
+  console.log(games)
+   res.render('admin', {"games": games, "user": user});
+   console.log("USER: " + user);
 });
 
 app.get("/logout", function(req,res){
   console.log("user has been logged out!");
   res.render("login");
   req.session.destroy();
-  
 });
 
 app.get('/addGame', function(req, res){
@@ -78,8 +79,43 @@ app.post("/addGame", async function(req, res){
   if (rows.affectedRows > 0) {
     message= "Listing successfully added!";
   }
-  res.render("addGame", {"message":message});
+  res.render("addGame");
 });
+
+function getAllGames() {
+  let conn = dbConnection();
+   return new Promise(function(resolve, reject){
+       conn.connect(function(err) {
+          if (err) throw err;
+          console.log("Connected!"); 
+         let sql = `SELECT *
+                       FROM listings`;  
+          conn.query(sql, function (err, rows) {
+             if (err) throw err;
+             conn.end();
+             resolve(rows);
+          });
+       });
+   });
+}
+
+function getGames(user) {
+    let conn = dbConnection();
+     return new Promise(function(resolve, reject){
+         conn.connect(function(err) {
+            if (err) throw err;
+            console.log("Connected!"); 
+           let sql = `SELECT *
+                         FROM listings
+                         WHERE seller_username LIKE '${user}'`;  
+            conn.query(sql, function (err, rows) {
+               if (err) throw err;
+               conn.end();
+               resolve(rows);
+            });
+         });
+     });
+ }
 
 function insertGame(body){
   let conn = dbConnection();
@@ -87,18 +123,14 @@ function insertGame(body){
     conn.connect(function(err) {
       if (err) throw err;
       console.log("Connected!: insertGame");
-        
       let sql = `INSERT INTO listings
                         (title, genre, image_url, price, seller_username)
                          VALUES ('${body.title}', '${body.genre}', '${body.imageURL}', ${body.price}, '${body.username}')`;
-        
       conn.query(sql, function (err, rows, fields) {
               if (err) throw err;
               conn.end();
               resolve(rows);
       });
-      console.log(sql);
-        
         });
     });
 }
@@ -161,7 +193,7 @@ app.post("/login", async function(req,res){
   let passwordMatch = await checkPassword(req.body.password,hashedPassword);
   if(passwordMatch){
     req.session.authenticated = true;
-    req.session.user = users[0].username;
+    req.session.user = req.body.username;
     res.render("index");
   }else{
     res.render("login",{error:true});
