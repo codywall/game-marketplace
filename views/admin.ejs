@@ -33,7 +33,7 @@
     </nav>
     <div class="d-flex flex-column align-items-center">
         <div class="d-flex flex-column align-items-center m-5" id="header">
-                    <h1 class="display-4"> Admin Page!!</h1>
+                    <h1 class="display-4">Your games</h1>
         </div>
         <% if (typeof(message) != "undefined") { %>
             
@@ -48,19 +48,26 @@
             <% } %>   
 
         <% } %>   
-        <button class="btn btn-primary" onclick=location.href="/addGame">+ Add listing</button>
-        <div id="product-grid" class="item-holder m-5 p-3">
-            <% games.forEach(function(game) { %>
-                    <figure class="store-item" onclick=location.href="/edit">
-                        <img class="thumbnail" src="<%= game.image_url %>" alt="game image"/>
-                        <figcaption class="game-caption">
-                            <p><%= game.title %></p>
-                            <p>Price: <%= game.price %></p>
-                        </figcaption>
-                        <br>
-                    </figure>
-            <% }) %>
+        <button class="btn btn-success" onclick=location.href="/addGame">+ Add listing</button>
+        <div class="container-fluid">
+            <div class="row">
+                <% games.forEach(function(game) { %>
+                <div class="col-6 col-md-4 col-lg-4 mb-4">
+                    <div class="card" style="width: 100%;">
+                        <img class="card-img-top" src="<%= game.image_url %>" alt="Card image cap">
+                        <div class="card-body">
+                            <h5 class="card-title"><%= game.title %></h5>
+                            <p class="card-text">$<%= game.price %> </p>
+                            <div class="btn-group" role="group">
+                                <a href="#" class="btn btn-primary" href='/edit'>Edit</a>
+                                <a href="#" class="btn btn-danger">Delete</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <% }) %>
         </div>    
+    </div>
     </div>
 </body>
 </html>
