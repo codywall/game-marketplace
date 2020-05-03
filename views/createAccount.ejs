@@ -8,8 +8,11 @@
     <title>Online Store</title>
 
     <!-- Bootstrap core JavaScript -->
-    <script src="https://code.jquery.com/jquery-3.3.1.min.js"
-        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+    >    
+    <script
+  src="https://code.jquery.com/jquery-3.3.1.min.js"
+  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+  crossorigin="anonymous"></script>
     <script src="https://unpkg.com/popper.js@1.14.4/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
         integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
@@ -18,9 +21,50 @@
     <!-- Bootstrap core CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/css/bootstrap.min.css"
         integrity="sha384-Smlep5jCw/wG7hdkwQ/Z5nLIefveQRIY9nfy6xoR1uRYBtpZgI6339F5dgvm/e9B" crossorigin="anonymous">
-
+        
+    <link rel="stylesheet" href="popupS.css">
     <!-- Custom styles for this template -->
     <<link  href="css/login.css"rel="stylesheet" type="text/css" />
+
+    <script>
+    function checkUsername(){
+        let username = $("#username").val();
+     
+        console.log(username);
+        $.ajax({ type: "get",
+        url: `/lookup/username/${username}`,
+      success: function(data,status) {
+  if (data == "Available") {
+    $("#usernameValidation").html("Available!");
+    $("#usernameValidation").css("color","green");
+      document.getElementById("btSubmit").disabled = false;
+  }
+  else {
+    $("#usernameValidation").html("Username already taken!");         
+    $("#usernameValidation").css("color","red");
+     document.getElementById("btSubmit").disabled = true;
+  }           
+}      
+  });
+        
+    }
+    function checkPassword(){
+        let pass1 = $("#password").val();
+        let pass2 = $("#repeatPassword").val();
+        if(pass1==pass2){
+            $("#passwordValidation").html("Matching");
+            $("#passwordValidation").css("color","green");
+            
+        }else{
+            $("#passwordValidation").html("Password's do not match!");
+             $("#passwordValidation").css("color","red");
+            
+        }
+        
+    }
+    
+</script>
+
     
 </head>
 
@@ -35,13 +79,17 @@
         <div class="d-flex flex-column align-items-center m-5">
             <h1 class="display-4">Create Account</h1>
         </div>
-        <form class="m-3 w-50" action"/createAccount" method="POST">
-            <input type="text" id="firstName" name="firstName" class="form-control my-3" placeholder="First Name">
-            <input type="text" id="lastName"  name="lastName" class="form-control my-3" placeholder="Last Name">
-            <input type="text" id="username"  name="username" class="form-control my-3" placeholder="Username">
-            <input type="text" id="password"  name="password" class="form-control my-3" placeholder="Password">
-            <input type="text" id="repeatPassword"  name="repeatPassword"class="form-control my-3" placeholder="Repeat Password">
-            <button  class="btn btn-primary mx-3">Submit</button>
+        <form class="m-3 w-50" action"/createAccount" onsubmit="return validateForm()" method="POST">
+            <input type="text" id="firstName" name="firstName" class="form-control my-3" placeholder="First Name" required >
+            <input type="text" id="lastName"  name="lastName" class="form-control my-3" placeholder="Last Name" required>
+
+            <input type="text" id="username"  name="username" class="form-control my-3"onblur="checkUsername()" placeholder="Username" required  >
+            <span style="color:red" id="usernameValidation"></span>  <br />
+      
+            <input type="text" id="password"  name="password" class="form-control my-3" placeholder="Password" onblur="checkPassword()" required>
+            <input type="text" id="repeatPassword"  name="repeatPassword"class="form-control my-3" onblur="checkPassword()" placeholder="Repeat Password" required>
+            <span style="color:red" id="passwordValidation"></span>  <br />
+            <button  class="btn btn-primary mx-3" type="submit" id="btSubmit" >Submit</button>
             <a href="/login">Log In</a>
         </form>
     </div>

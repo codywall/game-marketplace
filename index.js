@@ -1,4 +1,5 @@
 /* Require external APIs and start our application instance */
+
 var bodyParser = require('body-parser');
 var express = require('express');
 var app = express();
@@ -6,6 +7,10 @@ var request = require('request');
 var mysql = require('mysql'); 
 var session = require('express-session');
 var bcrypt = require('bcrypt');
+var lookupRouter = require('./lookup');
+
+
+
 
 /* Start the application server */
 app.listen(process.env.PORT || 8080, process.env.IP, function () {
@@ -21,6 +26,7 @@ app.use(session({
   resave: true,
   saveUnitialized:true
 }));
+app.use('/lookup', lookupRouter);
 app.use(express.urlencoded({extended: true}));
 app.set('view engine', 'ejs');
 
@@ -37,6 +43,7 @@ app.get('/', async function (req, res) {
   res.render('index', {num1: num1, num2: num2, num3: num3, num4: num4, num5: num5, "games": games});
 
 });
+
 
 app.get('/login', function (req, res) {
   res.render('login');
@@ -140,8 +147,16 @@ app.get('/cart', function(req,res){
    res.render('cart');
 });
 /* The handler for undefined routes */
-app.get('*', function (req, res) {
-  res.render('index');
+app.get('*', async function (req, res) {
+  let num1 = Math.floor(Math.random() * Math.floor(388570));
+  let num2 = Math.floor(Math.random() * Math.floor(388570));
+  let num3 = Math.floor(Math.random() * Math.floor(388570));
+  let num4 = Math.floor(Math.random() * Math.floor(388570));
+  let num5 = Math.floor(Math.random() * Math.floor(388570));
+  let url = `https://api.rawg.io/api/games?search=${num1}`;
+  console.log(url);
+  let games = await getAllGames();
+  res.render('index', {num1: num1, num2: num2, num3: num3, num4: num4, num5: num5, "games": games});
 });
 
 function dbConnection() {
@@ -157,7 +172,9 @@ function dbConnection() {
 
 
 
-app.post("/createAccount",function (req,res){
+
+
+app.post("/createAccount",async function (req,res){
   let username = req.body.username;
   let password= req.body.password;
   let name= req.body.firstName;
@@ -165,27 +182,47 @@ app.post("/createAccount",function (req,res){
   let repeatPassword = req.body.repeatPassword;
   let conn = dbConnection();
   let salt = 10;
-  let count = 5;
-  bcrypt.hash(password,salt,function(error,hash){
-     if(error) throw error;
-     var stmt='INSERT INTO users (first_name ,last_name ,username , password) VALUES (?,?,?,?)';
-     var data = [name,lastName,username,hash];
-     
-     conn.query(stmt,data,function(error,result){
-     if(error) throw error;
-      res.redirect("/login");
-    });
-    
-  });
+
+      let passwordMatch = await compare(password,repeatPassword);
+      console.log("account created");
+      if(passwordMatch){
+      bcrypt.hash(password,salt,function(error,hash){
+          if(error) throw error;
+          var stmt='INSERT INTO users (first_name ,last_name ,username , password) VALUES (?,?,?,?)';
+          var data = [name,lastName,username,hash];
+          conn.query(stmt,data,function(error,result){
+              if(error) throw error;
+              res.redirect("/login");
+              
+          });
+          
+      });
+      }else{ 
+        res.render("createAccount",{error:true});
+        console.log(passwordMatch);
+          
+      }
+ 
   
-  console.log("name "+ name);
-  console.log("lastName "+ lastName);
-  console.log("username "+ username);
-  console.log("password "+password);
-  console.log("repeatPassword "+ repeatPassword);
+
+ 
 
   
 });
+
+function compare(password1,password2){
+  if (password1==password2){
+    return true;
+  }
+  else{
+    return false;
+  }
+}
+  
+
+
+
+
 
 app.post("/login", async function(req,res){
   let users = await  userexist(req.body.username);
@@ -194,6 +231,8 @@ app.post("/login", async function(req,res){
   if(passwordMatch){
     req.session.authenticated = true;
     req.session.user = req.body.username;
+
+    
     let num1 = Math.floor(Math.random() * Math.floor(388570));
     let num2 = Math.floor(Math.random() * Math.floor(388570));
     let num3 = Math.floor(Math.random() * Math.floor(388570));
@@ -201,8 +240,8 @@ app.post("/login", async function(req,res){
     let num5 = Math.floor(Math.random() * Math.floor(388570));
     let url = `https://api.rawg.io/api/games?search=${num1}`;
     console.log(url);
-    let games = await getAllGames();
-    res.render('index', {num1: num1, num2: num2, num3: num3, num4: num4, num5: num5, "games": games});
+  let games = await getAllGames();
+  res.render('index', {num1: num1, num2: num2, num3: num3, num4: num4, num5: num5, "games": games});
     
   }else{
     res.render("login",{error:true});
@@ -243,3 +282,4 @@ function isAuthenticated(req, res, next){
   if(!req.session.authenticated) res.redirect("/login");
   else next();
 }
+
