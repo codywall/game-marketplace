@@ -45,7 +45,7 @@ app.get('/createAccount', function (req, res) {
 app.get('/admin', async function(req,res){
   let user = req.session.user;
   let games = await getGames(user);
-  console.log(games)
+  console.log(games);
    res.render('admin', {"games": games, "user": user});
    console.log("USER: " + user);
 });
@@ -56,8 +56,14 @@ app.get("/logout", function(req,res){
   req.session.destroy();
 });
 
-app.get('/edit', function (req, res) {
-  res.render('edit');
+app.get('/edit', async function (req, res) {
+   let user = req.session.user; //to get current user
+  let games = await getGames(user); //to put images
+  let looking = req.query.searching; //getting user input to edit
+  let focus = await getSingleGame(user, looking);
+  console.log(focus);
+  console.log("games: " + games);
+  res.render('edit', {"games": games, "user": user});
 });
 
 
@@ -119,6 +125,27 @@ function getGames(user) {
             });
          });
      });
+ }
+ 
+ function getSingleGame(user, game){
+   let conn = dbConnection();
+   return new Promise(function(resolve, reject){
+     conn.connect(function(err){
+       if(err) throw err;
+       console.log("Connected");
+       let sql = `Select *
+                    From listings
+                    Where seller_username LIKE '${user}'
+                    and title LIKE '${game}'`;
+       conn.query(sql, function(err, rows){
+         if(err) throw err;
+         conn.end();
+         console.log(resolve);
+         resolve(rows);
+       });
+      
+     });
+   });
  }
 
 function insertGame(body){
@@ -248,3 +275,6 @@ function isAuthenticated(req, res, next){
   if(!req.session.authenticated) res.redirect("/login");
   else next();
 }
+
+
+ //<img class="thumbnail" src="<%= game.image_url %>" alt="game image"/>

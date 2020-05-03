@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-<% var games; %>
 
 <head>
   <meta charset="utf-8">
@@ -40,33 +39,43 @@
   <div class="d-flex flex-column align-items-center">
 
     <div class="d-flex flex-column align-items-center m-5">
-      <h1 class="display-4">You are now editing!</h1>
+          <h1 class="display-4">You are now editing <%=user%> !</h1>
       <p></p>
     </div>
-
-    <form class="m-3" id="searchform">
+    
+    <form class="m-3" id="searchform" action="edit" method="GET">
       <div class="input-group">
-        <input type="text" class="form-control" placeholder="What are you looking for?" id="keyword" >
+        <input type="text" class="form-control" name="searching" placeholder="Title of game you want to edit or delete" id="keyword" >
         <div class="input-group-append">
           <button type="submit" class="btn btn-primary">Search</button>
         </div>
       </div>
     </form>
+    
+    <div class="container">
+        <div class="col-10">
+            <from method="POST">
+                
+            </from>
+        </div>
+    </div>
 
-    <div id="product-grid" class="item-holder m-5 p-3">
-      <% if (typeof games == 'object' && games) { %>
-      <% games.forEach(function(game) { %>
-              <figure class="store-item">
-                  <img class="thumbnail" src="<%= game.image_url %>" alt="game image"/>
-                  <figcaption class="game-caption">
-                      <p><%= game.title %></p>
-                  </figcaption>
-                  <br>
-              </figure>
-      <% }) %>
+   <div id="product-grid" class="item-holder m-5 p-3">
+            <% games.forEach(function(game) { %>
+                    <figure >
+                        <img class="thumbnail" src="<%= game.image_url %>" alt="game image"/>
+                        <figcaption class="game-caption">
+                            <p><%= game.title %></p>
+                            <p>Price: <%= game.price %></p>
+                        </figcaption>
+                        <br>
+                    </figure>
+            <% }) %>
+        </div>   
+    
+   
 
-      <% } %>
-    </div>   
+      
 
   </div>
 
