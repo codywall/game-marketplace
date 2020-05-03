@@ -25,11 +25,7 @@
     "ejs": "^3.1.2",
     "express": "^4.17.1",
     "express-session": "^1.17.1",
-<<<<<<< HEAD
-    "js-alert": "^1.0.4",
-=======
     "method-override": "^3.0.0",
->>>>>>> 7a7849cc2425ed6ac2862ea3b225968e2cbc8831
     "mysql": "^2.18.1",
     "popups": "^1.1.3",
     "request": "^2.88.2",
