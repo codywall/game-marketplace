@@ -1,61 +1,91 @@
 <!DOCTYPE html>
 <html lang="en">
-<% var games; %>
+  <% var games; %>
 
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
 
-  <title>Online Store</title>
+    <title>Online Store</title>
 
-  <!-- Bootstrap core JavaScript -->
-  <script src="https://code.jquery.com/jquery-3.3.1.min.js"
-    integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
-  <script src="https://unpkg.com/popper.js@1.14.4/dist/umd/popper.min.js"></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
-    integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
-    crossorigin="anonymous"></script>
+    <!-- Bootstrap core JavaScript -->
+    <script
+      src="https://code.jquery.com/jquery-3.3.1.min.js"
+      integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+      crossorigin="anonymous"
+    ></script>
+    <script src="https://unpkg.com/popper.js@1.14.4/dist/umd/popper.min.js"></script>
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
+      integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+      crossorigin="anonymous"
+    ></script>
 
-  <!-- Bootstrap core CSS -->
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/css/bootstrap.min.css"
-    integrity="sha384-Smlep5jCw/wG7hdkwQ/Z5nLIefveQRIY9nfy6xoR1uRYBtpZgI6339F5dgvm/e9B" crossorigin="anonymous">
+    <!-- Bootstrap core CSS -->
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/css/bootstrap.min.css"
+      integrity="sha384-Smlep5jCw/wG7hdkwQ/Z5nLIefveQRIY9nfy6xoR1uRYBtpZgI6339F5dgvm/e9B"
+      crossorigin="anonymous"
+    />
 
-  <!-- Custom styles for this template -->
-  <<link  href="css/index.css"rel="stylesheet" type="text/css" />
-  <<link  href="css/cart.css"rel="stylesheet" type="text/css" />
+    <!-- Custom styles for this template -->
+    <
+    <link href="css/index.css" rel="stylesheet" type="text/css" />
+    <
+    <link href="css/cart.css" rel="stylesheet" type="text/css" />
+  </head>
 
+  <body>
+    <nav class="navbar sticky-top" style="background-color: #e3f2fd;">
+      <a type="button" class="btn btn-outline-secondary" href="/cart"
+        >Shopping Cart</a
+      >
+      <div class="ml-auto">
+        <a
+          type="button"
+          class="btn btn-outline-secondary"
+          href="/login"
+          id="login_button"
+          >Log in</a
+        >
+      </div>
+      <div class="ml-auto">
+        <a
+          type="button"
+          class="btn btn-outline-secondary"
+          href="/admin"
+          id="admin_page"
+          >Admin Page</a
+        >
+      </div>
+    </nav>
 
-</head>
+    <div class="d-flex flex-column align-items-center">
+      <div class="d-flex flex-column align-items-center m-5">
+        <h1 class="display-4">Definitely Legal Games Store</h1>
+        <p>We are $100% legal.</p>
+      </div>
 
-<body>
-  <nav class="navbar sticky-top" style="background-color: #e3f2fd;">
-
-    <a type="button" class="btn btn-outline-secondary" href="/cart">Shopping Cart</a>
-    <div class="ml-auto">
-      <a type="button" class="btn btn-outline-secondary" href="/login" id="login_button">Log in</a>
-    </div>
-    <div class="ml-auto">
-      <a type="button" class="btn btn-outline-secondary" href="/admin" id="admin_page">Admin Page</a>
-    </div>
-
-  </nav>
-
-  <div class="d-flex flex-column align-items-center">
-
-    <div class="d-flex flex-column align-items-center m-5">
-      <h1 class="display-4">Definitely Legal Games Store</h1>
-      <p>We are $100% legal.</p>
-    </div>
-      
-      <br>
+      <br />
       <!--form for title-->
-    <form class="m-3" id="searchform" action='/title' method='GET'>
-      <div class="input-group">
-        <input type="text" class="form-control" placeholder="Specific title of game you are looking for?" name="title" id="title" >
-        <div class="input-group-append">
-          <button type="submit" class="btn btn-primary">Search</button>
-          
+      <form class="m-3" id="searchform" action="/title" method="GET">
+        <div class="input-group">
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Specific title of game you are looking for?"
+            name="title"
+            id="title"
+          />
+          <div class="input-group-append">
+            <button type="submit" class="btn btn-primary">Search</button>
+          </div>
         </div>
+<<<<<<< HEAD
       </div>
      </form>
       
@@ -64,9 +94,16 @@
       
       
       
+=======
+      </form>
+
+      <br />
+
+>>>>>>> f813dd1310118c6944230620af760c682ceea3ee
       <!--form for genre-->
-      <form class="m-3" id="searchform" action='/genre' method='GET'>
+      <form class="m-3" id="searchform" action="/genre" method="GET">
         <div class="input-group">
+<<<<<<< HEAD
           
         <table>
             <tr>
@@ -86,78 +123,125 @@
         
         <div class="input-group-append">
           <button type="submit" class="btn btn-primary">Search</button>
-        </div>
-      </div>
-      </form>
-      
-      
-      <br>
-      
-      <!--form for price-->
-      <form class="m-3" id="searchform" action='/price' method='GET'>
-      <div class="slidecontainer">
-        <input type="range" min="1" max="150" value="50" class="slider" name="myRange" id="myRange">
-        <div class='row row-cols-12'>
-          <div class='col-8'>
-            <p>Tell us your price range: <span id="demo"></span></p>
-          </div>
-          <div class='col-4'>
+=======
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Input the genre you are looking for!"
+            name="genre"
+            id="genre"
+          />
+          <div class="input-group-append">
             <button type="submit" class="btn btn-primary">Search</button>
           </div>
-          
+>>>>>>> f813dd1310118c6944230620af760c682ceea3ee
         </div>
-      </div>
-      
-      <script>
-          var slider = document.getElementById("myRange");
-          var output = document.getElementById("demo");
+      </form>
+
+      <br />
+
+      <!--form for price-->
+      <form class="m-3" id="searchform" action="/price" method="GET">
+        <div class="slidecontainer">
+          <input
+            type="range"
+            min="1"
+            max="150"
+            value="50"
+            class="slider"
+            name="myRange"
+            id="myRange"
+          />
+          <div class="row row-cols-12">
+            <div class="col-8">
+              <p>Tell us your price range: <span id="demo"></span></p>
+            </div>
+            <div class="col-4">
+              <button type="submit" class="btn btn-primary">Search</button>
+            </div>
+          </div>
+        </div>
+
+        <script>
+          var slider = document.getElementById('myRange');
+          var output = document.getElementById('demo');
           output.innerHTML = slider.value;
-          
-          slider.oninput = function() {
+
+          slider.oninput = function () {
             output.innerHTML = this.value;
-          }
-      </script>
-    </form>
-
-      <div id="product-grid" class="item-holder m-5 p-3">
-        <% if (typeof games == 'object' && games) { %>
-        <% games.forEach(function(game) { %>
-                <figure class="store-item">
-                    <img class="thumbnail" src="<%= game.image_url %>" alt="game image"/>
-                    <figcaption class="game-caption">
-                        <p><%= game.title %></p>
-                    </figcaption>
-                    <br>
-                </figure>
-        <% }) %>
-  
-        <% } %>
-      </div> 
-
-  </div>
-
-  <div id="product-modal" class="modal" tabindex="-1" role="dialog">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="modal-product-name">Product Name</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          <img id="modal-product-img" class="w-100 mb-3" />
-          <p id="modal-product-desc">Product Description</p>
-          <p class="text-right font-weight-bold">$<span id="modal-product-price">0.00</span></p>
-        </div>
-        <div class="modal-footer">
-          <button type="button" id="cart-add-button" class="btn btn-primary" product_id="0">Add to cart</button>
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          };
+        </script>
+      </form>
+      <div class="container-fluid">
+        <div class="row"">
+          <% if (typeof games == 'object' && games) { %> <%
+          games.forEach(function(game) { %>
+            <div class="col-6 col-md-4 col-lg-4 mb-4">
+            <div class="card" style="width: 100%;">
+              <img
+                class="card-img-top"
+                src="<%= game.image_url %>"
+                alt="Card image cap"
+              />
+              <div class="card-body">
+                <h5 class="card-title"><%= game.title %></h5>
+                <p class="card-text">$<%= game.price %></p>
+                <div class="btn-group" role="group">
+                  <a
+                    class="btn btn-success"
+                    onclick="return confirm('Are you sure you want to buy this game?');"
+                    href="/game/<%=game.listing_id%>/buy"
+                    >Buy</a
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+          <% }) %> <% } %>
         </div>
       </div>
     </div>
-  </div>
 
-</body>
-
+    <div id="product-modal" class="modal" tabindex="-1" role="dialog">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="modal-product-name">Product Name</h5>
+            <button
+              type="button"
+              class="close"
+              data-dismiss="modal"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <img id="modal-product-img" class="w-100 mb-3" />
+            <p id="modal-product-desc">Product Description</p>
+            <p class="text-right font-weight-bold">
+              $<span id="modal-product-price">0.00</span>
+            </p>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              id="cart-add-button"
+              class="btn btn-primary"
+              product_id="0"
+            >
+              Add to cart
+            </button>
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-dismiss="modal"
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
 </html>

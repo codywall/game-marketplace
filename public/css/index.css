@@ -1,65 +1,42 @@
 nav {
-    background-color: lightgrey;
-    height: 4em;
+  background-color: lightgrey;
+  height: 4em;
 }
 
 h1 {
-    text-align: center;
+  text-align: center;
 }
 
-.thumbnail {
-    width: 100%;
-    border-radius: 5px;
-    margin-bottom: 10px;
+.container-fluid {
+  max-width: 800px;
+  margin-top: 30px;
 }
 
-figcaption, figure{
-    margin: 0px auto;
-    width: 100%;
+.card-img-top {
+  height: 120px;
+  overflow: hidden;
+  object-fit: cover;
 }
 
-.store-item {
-    min-height: 50px;
-    Min-width: 50px;
-    border: 1px solid black;
-    float: left;
-    margin-left: 10px;
-    margin-bottom: 5px;
-    box-shadow: 4px 4px 5px grey;
+#header {
+  margin: 1rem !important;
 }
-
-.store-item:hover {
-    background-color: grey;
-}
-
-.item-holder {
-    width: 50%;
-    min-height: 100vh;
-    display: grid;
-    grid-auto-columns: 10em;
-    grid-auto-rows: 10em;
-    grid-template-columns: repeat(auto-fit, 10em);
-    grid-gap: 1em;
-    justify-content: center;
-}
-
 #searchform {
-    width: 50%;
-    max-width: 25em;
-    top: 0.5em;
+  width: 50%;
+  max-width: 25em;
+  top: 0.5em;
 }
 
-@media (min-width: 768px) {  
-    #searchform {
-        position: sticky;
-        z-index: 1021
-    }
+@media (min-width: 768px) {
+  #searchform {
+    position: sticky;
+    z-index: 1021;
+  }
 }
 
 #cart-add-button {
-    width: 7em;
+  width: 7em;
 }
-
 
 .slidecontainer {
   width: 100%;
@@ -72,15 +49,13 @@ figcaption, figure{
   background: black;
   outline: none;
   opacity: 0.7;
-  -webkit-transition: .2s;
-  transition: opacity .2s;
+  -webkit-transition: 0.2s;
+  transition: opacity 0.2s;
 }
-
 
 .slider:hover {
   opacity: 1;
 }
-
 
 .slider::-webkit-slider-thumb {
   -webkit-appearance: none;
