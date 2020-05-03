@@ -1,35 +1,14 @@
-.thumbnail {
-    width: 100%;
-    border-radius: 5px;
-    margin-bottom: 10px;
+.container-fluid {
+    max-width: 800px;
+    margin-top: 30px;
 }
 
-figcaption, figure{
-    margin: 0px auto;
-    width: 100%;
+.card-img-top {
+    height: 120px;
+    overflow: hidden;
+    object-fit: cover;
 }
 
-.store-item {
-    min-height: 50px;
-    Min-width: 50px;
-    border: 1px solid black;
-    float: left;
-    margin-left: 10px;
-    margin-bottom: 5px;
-    box-shadow: 4px 4px 5px grey;
-}
-
-.store-item:hover {
-    background-color: grey;
-}
-
-.item-holder {
-    width: 50%;
-    min-height: 100vh;
-    display: grid;
-    grid-auto-columns: 10em;
-    grid-auto-rows: 10em;
-    grid-template-columns: repeat(auto-fit, 10em);
-    grid-gap: 1em;
-    justify-content: center;
+#header {
+    margin: 1rem !important;
 }

@@ -70,7 +70,7 @@ app.get('/edit', async function (req, res) {
 app.get('/addGame', function(req, res){
 	let game = req.query.search;
   let user = req.session.user;
-	const url = `https://api.rawg.io/api/games?search=${game}`;
+	const url = `https://api.rawg.io/api/games?search=${game ? game : ''}`;
 	request(url, function(error, response, data){
     if (!error && response.statusCode == 200) {
 			data = JSON.parse(data);
@@ -83,13 +83,15 @@ app.get('/addGame', function(req, res){
 app.post("/addGame", async function(req, res){
   let rows = await insertGame(req.body);
   console.log(rows);
-  let message = "Listing was not added to the database.";
+  let message = { text: "Listing was not added to the database." };
+  message.success = false;
   if (rows.affectedRows > 0) {
-    message= "Listing successfully added!";
+    message.text = "Listing successfully added!";
+    message.success = true;
   }
   let games = await getGames(req.body.username);
   console.log('fetching your games...')
-  res.render("admin", {"games": games});
+  res.render("admin", {"games": games, "message": message});
 });
 
 function getAllGames() {
@@ -99,7 +101,8 @@ function getAllGames() {
           if (err) throw err;
           console.log("Connected!"); 
          let sql = `SELECT *
-                       FROM listings`;  
+                    FROM listings
+                    ORDER BY listing_id DESC`;  
           conn.query(sql, function (err, rows) {
              if (err) throw err;
              conn.end();
@@ -117,7 +120,8 @@ function getGames(user) {
             console.log("Connected!"); 
            let sql = `SELECT *
                          FROM listings
-                         WHERE seller_username LIKE '${user}'`;  
+                         WHERE seller_username LIKE '${user}'
+                         ORDER BY listing_id DESC `;  
             conn.query(sql, function (err, rows) {
                if (err) throw err;
                conn.end();
