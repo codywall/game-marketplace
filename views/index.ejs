@@ -143,7 +143,7 @@
         <div class="row"">
           <% if (typeof games == 'object' && games) { %> <%
           games.forEach(function(game) { %>
-          <div class="col-6 col-md-4 col-lg-4 mb-4">
+            <div class="col-6 col-md-4 col-lg-4 mb-4">
             <div class="card" style="width: 100%;">
               <img
                 class="card-img-top"
@@ -155,8 +155,9 @@
                 <p class="card-text">$<%= game.price %></p>
                 <div class="btn-group" role="group">
                   <a
+                    class="btn btn-success"
                     onclick="return confirm('Are you sure you want to buy this game?');"
-                    href="/game/<%=game.listing_id%>/delete"
+                    href="/game/<%=game.listing_id%>/buy"
                     >Buy</a
                   >
                 </div>
