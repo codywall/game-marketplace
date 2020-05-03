@@ -36,6 +36,33 @@ app.get('/', async function (req, res) {
 
 });
 
+app.get('/title',  async function(req, res){
+             
+             let title = req.query.title;
+             let games = await getGamebyTitle(title);
+             console.log("titles: " + games);
+             console.log("fetching games by title...");
+             res.render("index", {"games": games});
+             
+  //var stmt = 'SELECT * FROM listings WHERE title=\'' + req.body.title + '%\';';
+});
+
+app.get('/genre', async function(req, res){
+  let genre = req.query.genre;
+  let games = await getGamebyGenre(genre);
+  console.log("titles: " + games);
+  console.log("fethcing games by genre...");
+  res.render("index", {"games": games});
+});
+
+app.get('/price', async function(req, res){
+  let range = req.query.myRange;
+  let games = await getGamebyPrice(range);
+  console.log(games);
+  console.log(range);
+  res.render("index", {"games": games});
+});
+
 
 
 app.get('/login', function (req, res) {
@@ -63,7 +90,7 @@ app.get("/logout", function(req,res){
 app.get('/game/:listing_id/edit', async function (req, res) {
    let user = req.session.user; //to get current user
   let games = await getGames(user); //to put images
-  
+  console.log("games:" + games)
   let conn = dbConnection();
   var stmt = 'SELECT * FROM listings WHERE listing_id=' + req.params.listing_id + ';';
   conn.query(stmt, function(error, result){
@@ -169,6 +196,63 @@ function getGames(user) {
          });
      });
  }
+ 
+function getGamebyTitle(title){
+  let conn = dbConnection();
+     return new Promise(function(resolve, reject){
+         conn.connect(function(err) {
+            if (err) throw err;
+            console.log("Connected!"); 
+           let sql = `SELECT *
+                         FROM listings
+                         WHERE title LIKE '${title}'
+                         ORDER BY listing_id DESC `;  
+            conn.query(sql, function (err, rows) {
+               if (err) throw err;
+               conn.end();
+               resolve(rows);
+            });
+         });
+     });
+}
+
+function getGamebyGenre(genre){
+  let conn = dbConnection();
+     return new Promise(function(resolve, reject){
+         conn.connect(function(err) {
+            if (err) throw err;
+            console.log("Connected!"); 
+           let sql = `SELECT *
+                         FROM listings
+                         WHERE genre LIKE '${genre}'
+                         ORDER BY listing_id DESC `;  
+            conn.query(sql, function (err, rows) {
+               if (err) throw err;
+               conn.end();
+               resolve(rows);
+            });
+         });
+     });
+}
+
+function getGamebyPrice(price){
+  let conn = dbConnection();
+     return new Promise(function(resolve, reject){
+         conn.connect(function(err) {
+            if (err) throw err;
+            console.log("Connected!"); 
+           let sql = `SELECT *
+                         FROM listings
+                         WHERE price BETWEEN 0 AND '${price}'
+                         ORDER BY listing_id DESC `;  
+            conn.query(sql, function (err, rows) {
+               if (err) throw err;
+               conn.end();
+               resolve(rows);
+            });
+         });
+     });
+}
  
  function getSingleGame(user, game){
    let conn = dbConnection();
