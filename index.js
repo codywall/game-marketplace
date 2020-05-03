@@ -3,11 +3,14 @@
 var bodyParser = require('body-parser');
 var express = require('express');
 var app = express();
+app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.json());
 var request = require('request');
 var mysql = require('mysql'); 
 var session = require('express-session');
 var bcrypt = require('bcrypt');
 var lookupRouter = require('./lookup');
+var methodOverride = require('method-override');
 
 
 /* Start the application server */
@@ -16,9 +19,8 @@ app.listen(process.env.PORT || 8080, process.env.IP, function () {
 });
 
 /* Configure our server to read public folder and ejs files */
-app.use(bodyParser.urlencoded());
-app.use(bodyParser.json());
 app.use(express.static('public'));
+app.use(methodOverride('_method'));
 app.use(session({
   secret:"top secret!",
   resave: true,
@@ -30,12 +32,38 @@ app.set('view engine', 'ejs');
 
 /* The handler for the DEFAULT route */
 app.get('/', async function (req, res) {
-
-
   let games = await getAllGames();
   res.render('index', { "games": games});
 
 });
+
+app.get('/title',  async function(req, res){
+             
+             let title = req.query.title;
+             let games = await getGamebyTitle(title);
+             console.log("titles: " + games);
+             console.log("fetching games by title...");
+             res.render("index", {"games": games});
+             
+  //var stmt = 'SELECT * FROM listings WHERE title=\'' + req.body.title + '%\';';
+});
+
+app.get('/genre', async function(req, res){
+  let genre = req.query.genre;
+  let games = await getGamebyGenre(genre);
+  console.log("titles: " + games);
+  console.log("fethcing games by genre...");
+  res.render("index", {"games": games});
+});
+
+app.get('/price', async function(req, res){
+  let range = req.query.myRange;
+  let games = await getGamebyPrice(range);
+  console.log(games);
+  console.log(range);
+  res.render("index", {"games": games});
+});
+
 
 
 app.get('/login', function (req, res) {
@@ -60,6 +88,54 @@ app.get("/logout", function(req,res){
   req.session.destroy();
 });
 
+
+app.get('/game/:listing_id/edit', async function (req, res) {
+   let user = req.session.user; //to get current user
+  let games = await getGames(user); //to put images
+  console.log("games:" + games)
+  let conn = dbConnection();
+  var stmt = 'SELECT * FROM listings WHERE listing_id=' + req.params.listing_id + ';';
+  conn.query(stmt, function(error, result){
+    if(error) throw error;
+    if(result.length){
+      var game = result[0];
+      //game.title = game.
+      //game.price
+    }
+      res.render('edit', {game: game, "user": user, "games": games});
+    
+  });
+});
+
+app.put('/game/:listing_id', function(req, res){
+  console.log(req.body);
+  console.log(req.body.title);
+  let conn = dbConnection();
+  
+  var stmt = 'UPDATE listings SET ' + 
+             'title = "' + req.body.Title + '",' +
+             'genre = "' + req.body.Genre + '",' +
+             'price = "' + req.body.Price + '"' +
+             'WHERE listing_id = ' + req.params.listing_id + ";";
+  
+  conn.query(stmt, function(error, result){
+    if(error) throw error;
+    res.redirect('/admin');
+  });
+});
+
+app.get('/game/:listing_id/delete', function(req, res){
+    var stmt = 'DELETE FROM listings WHERE listing_id =' + req.params.listing_id + ';';
+    let conn = dbConnection();
+    conn.query(stmt, function(error, result){
+      if(error) throw error;
+      res.redirect('/admin');
+    });
+});
+
+
+//might have to change/////////////////////////////////////////////
+/*
 app.get('/addGame', function(req, res){
 	let game = req.query.search;
 	const url = `https://api.rawg.io/api/games?search=${game}`;
@@ -81,7 +157,6 @@ app.post("/addGame", async function(req, res){
   }
   res.render("addGame");
 });
-
 function getAllGames() {
   let conn = dbConnection();
    return new Promise(function(resolve, reject){
@@ -117,8 +192,8 @@ function getGames(user) {
          });
      });
  }
- 
-
+ */
+/////////////////////////////////////////////////////////////////////////
 
 
 app.get('/addGame', function(req, res){
@@ -185,6 +260,7 @@ function getGames(user) {
      });
  }
  
+//////////////////////////////////////////////////////
 function getGamebyTitle(title){
   let conn = dbConnection();
      return new Promise(function(resolve, reject){
@@ -262,6 +338,7 @@ function getGamebyPrice(price){
      });
    });
  }
+ 
 
 function insertGame(body){
   let conn = dbConnection();
@@ -435,11 +512,7 @@ app.get('/cart', function(req,res){
 });
 /* The handler for undefined routes */
 app.get('*', async function (req, res) {
-
-  let url = `https://api.rawg.io/api/games?search=${num1}`;
-  console.log(url);
   let games = await getAllGames();
-  res.render('index', {num1: num1, num2: num2, num3: num3, num4: num4, num5: num5, "games": games});
 });
 
 function dbConnection() {
@@ -516,8 +589,6 @@ app.post("/login", async function(req,res){
     req.session.user = req.body.username;
 
 
-  let url = `https://api.rawg.io/api/games?search=${num1}`;
-  console.log(url);
   let games = await getAllGames();
   res.render('index', {"games": games});
 
