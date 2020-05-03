@@ -2,10 +2,13 @@
 var bodyParser = require('body-parser');
 var express = require('express');
 var app = express();
+app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.json());
 var request = require('request');
 var mysql = require('mysql'); 
 var session = require('express-session');
 var bcrypt = require('bcrypt');
+var methodOverride = require('method-override');
 
 /* Start the application server */
 app.listen(process.env.PORT || 8080, process.env.IP, function () {
@@ -13,9 +16,10 @@ app.listen(process.env.PORT || 8080, process.env.IP, function () {
 });
 
 /* Configure our server to read public folder and ejs files */
-app.use(bodyParser.urlencoded());
-app.use(bodyParser.json());
+
+
 app.use(express.static('public'));
+app.use(methodOverride('_method'));
 app.use(session({
   secret:"top secret!",
   resave: true,
@@ -56,14 +60,43 @@ app.get("/logout", function(req,res){
   req.session.destroy();
 });
 
-app.get('/edit', async function (req, res) {
+app.get('/game/:listing_id/edit', async function (req, res) {
    let user = req.session.user; //to get current user
   let games = await getGames(user); //to put images
-  let looking = req.query.searching; //getting user input to edit
-  let focus = await getSingleGame(user, looking);
-  console.log(focus);
-  console.log("games: " + games);
-  res.render('edit', {"games": games, "user": user});
+  
+  let conn = dbConnection();
+  var stmt = 'SELECT * FROM listings WHERE listing_id=' + req.params.listing_id + ';';
+  conn.query(stmt, function(error, result){
+    if(error) throw error;
+    if(result.length){
+      var game = result[0];
+      //game.title = game.
+      //game.price
+    }
+      res.render('edit', {game: game, "user": user, "games": games});
+    
+  });
+});
+
+app.put('/game/:listing_id', function(req, res){
+  console.log(req.body);
+  console.log(req.body.title);
+  let conn = dbConnection();
+  
+  
+  
+  var stmt = 'UPDATE listings SET ' + 
+             'title = "' + req.body.Title + '",' +
+             'genre = "' + req.body.Genre + '",' +
+             'price = "' + req.body.Price + '"' +
+             'WHERE listing_id = ' + req.params.listing_id + ";";
+             
+  
+  conn.query(stmt, function(error, result){
+    if(error) throw error;
+    res.redirect('/admin');
+  });
+  
 });
 
 

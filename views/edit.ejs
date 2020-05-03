@@ -43,35 +43,63 @@
       <p></p>
     </div>
     
-    <form class="m-3" id="searchform" action="edit" method="GET">
-      <div class="input-group">
-        <input type="text" class="form-control" name="searching" placeholder="Title of game you want to edit or delete" id="keyword" >
-        <div class="input-group-append">
-          <button type="submit" class="btn btn-primary">Search</button>
-        </div>
+    
+    <form action='/game/<%=game.listing_id%>?_method=PUT' method='POST'>
+      <div class="form-group row">
+          <label for='gameID' class='col-sm-4 col-form-label'>Game ID: </label>
+          <div class='col-sm-4'>
+            <input type='text' class='Form-control' id='Title' name='Title' value='<%=game.listing_id%>' disabled>
+          </div>
       </div>
+      <div class="form-group row">
+          <label for='gameID' class='col-sm-4 col-form-label'>Title: </label>
+          <div class='col-sm-4'>
+            <input type='text' class='Form-control' id='Title' name='Title' placeholder='<%=game.title%>' required>
+          </div>
+      </div>
+      <div class="form-group row">
+          <label for='gameID' class='col-sm-4 col-form-label'>Genre: </label>
+          <div class='col-sm-4'>
+            <input type='text' class='Form-control' id='Genre' name='Genre' placeholder='<%=game.genre%>' required>
+          </div>
+      </div>
+      <div class="form-group row">
+          <label for='gameID' class='col-sm-4 col-form-label'>Price: </label>
+          <div class='col-sm-4'>
+            <input type='text' class='Form-control' id='Price' name='Price' placeholder='<%=game.price%>' required>
+          </div>
+      </div>  
+      
+      <nav class="navbar sticky-top">
+  
+      <button class='btn btn-primary'> Update Game</button>
+      
+      <div class="ml-auto">
+        <a type="button" class="btn btn-danger" href='/game/<%=game.listing_id%>'>Cancel</a>
+      </div>
+
+  </nav>
+      
     </form>
     
-    <div class="container">
-        <div class="col-10">
-            <from method="POST">
-                
-            </from>
-        </div>
-    </div>
+    
+    
 
-   <div id="product-grid" class="item-holder m-5 p-3">
-            <% games.forEach(function(game) { %>
-                    <figure >
-                        <img class="thumbnail" src="<%= game.image_url %>" alt="game image"/>
-                        <figcaption class="game-caption">
-                            <p><%= game.title %></p>
-                            <p>Price: <%= game.price %></p>
-                        </figcaption>
-                        <br>
-                    </figure>
-            <% }) %>
-        </div>   
+    <div class="container-fluid">
+                <div class="row">
+                    <% games.forEach(function(games) { %>
+                    <div class="col-3 col-md-2 col-lg-2 mb-2">
+                        <div class="card" style="width: 100%;">
+                            <img class="card-img-top" src="<%= games.image_url %>" alt="Card image cap">
+                            <div class="card-body">
+                                <h5 class="card-title"><%= games.title %></h5>
+                                <p class="card-text">$<%= games.price %> </p>
+                            </div>
+                        </div>
+                    </div>
+                    <% }) %>
+                </div>    
+        </div>  
     
    
 

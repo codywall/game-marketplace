@@ -50,24 +50,25 @@
         <% } %>   
         <button class="btn btn-success" onclick=location.href="/addGame">+ Add listing</button>
         <div class="container-fluid">
-            <div class="row">
-                <% games.forEach(function(game) { %>
-                <div class="col-6 col-md-4 col-lg-4 mb-4">
-                    <div class="card" style="width: 100%;">
-                        <img class="card-img-top" src="<%= game.image_url %>" alt="Card image cap">
-                        <div class="card-body">
-                            <h5 class="card-title"><%= game.title %></h5>
-                            <p class="card-text">$<%= game.price %> </p>
-                            <div class="btn-group" role="group">
-                                <a class="btn btn-primary" href='/edit'>Edit</a>
-                                <a class="btn btn-danger">Delete</a>
+                <div class="row">
+                    <% games.forEach(function(game) { %>
+                    <div class="col-6 col-md-4 col-lg-4 mb-4">
+                        <div class="card" style="width: 100%;">
+                            <img class="card-img-top" src="<%= game.image_url %>" alt="Card image cap">
+                            <div class="card-body">
+                                <h5 class="card-title"><%= game.title %></h5>
+                                <p class="card-text">$<%= game.price %> </p>
+                                <p class="card-text"><%= game.listing_id %> </p>
+                                <div class="btn-group" role="group">
+                                    <a class="btn btn-primary" href='/game/<%=game.listing_id%>/edit'>Edit</a>
+                                    <a class="btn btn-danger">Delete</a>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <% }) %>
-        </div>    
-    </div>
+                    <% }) %>
+                </div>    
+        </div>
     </div>
 </body>
 </html>
