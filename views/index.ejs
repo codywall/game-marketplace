@@ -62,10 +62,28 @@
       <br>
       
       
+      
+      
       <!--form for genre-->
       <form class="m-3" id="searchform" action='/genre' method='GET'>
         <div class="input-group">
-        <input type="text" class="form-control" placeholder="Input the genre you are looking for!" name="genre" id="genre" >
+          
+        <table>
+            <tr>
+              <td>
+                <select id="genre" name="genre" onchange="selection()">
+                  <option value="">choose a genre or other</option>
+                  <option value="Action">Action</option>
+                  <option value="Sport">Sport</option>
+                  <option value="Adventure">Adventure</option>
+                  <option value="Racing">Racing</option>
+                  <option value="Shooter">Shooter</option>
+                  <option value="Arcade">Arcade</option>
+                </select>
+              </td>
+            </tr>
+        </table>
+        
         <div class="input-group-append">
           <button type="submit" class="btn btn-primary">Search</button>
         </div>
