@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-<% var games; %>
 
 <head>
   <meta charset="utf-8">
@@ -30,10 +29,7 @@
 <body>
   <nav class="navbar sticky-top" style="background-color: #e3f2fd;">
 
-    <a type="button" class="btn btn-outline-secondary" href="/cart">Shopping Cart</a>
-    <div class="ml-auto">
-      <a type="button" class="btn btn-outline-secondary" href="/login" id="login_button">Log in</a>
-    </div>
+    
     <div class="ml-auto">
       <a type="button" class="btn btn-outline-secondary" href="/admin" id="admin_page">Admin Page</a>
     </div>
@@ -43,78 +39,71 @@
   <div class="d-flex flex-column align-items-center">
 
     <div class="d-flex flex-column align-items-center m-5">
-      <h1 class="display-4">Definitely Legal Games Store</h1>
-      <p>We are $100% legal.</p>
+          <h1 class="display-4">You are now editing <%=user%> !</h1>
+      <p></p>
     </div>
-      
-      <br>
-      <!--form for title-->
-    <form class="m-3" id="searchform" action='/title' method='GET'>
-      <div class="input-group">
-        <input type="text" class="form-control" placeholder="Specific title of game you are looking for?" name="title" id="title" >
-        <div class="input-group-append">
-          <button type="submit" class="btn btn-primary">Search</button>
-          
-        </div>
-      </div>
-     </form>
-      
-      <br>
-      
-      
-      <!--form for genre-->
-      <form class="m-3" id="searchform" action='/genre' method='GET'>
-        <div class="input-group">
-        <input type="text" class="form-control" placeholder="Input the genre you are looking for!" name="genre" id="genre" >
-        <div class="input-group-append">
-          <button type="submit" class="btn btn-primary">Search</button>
-        </div>
-      </div>
-      </form>
-      
-      
-      <br>
-      
-      <!--form for price-->
-      <form class="m-3" id="searchform" action='/price' method='GET'>
-      <div class="slidecontainer">
-        <input type="range" min="1" max="150" value="50" class="slider" name="myRange" id="myRange">
-        <div class='row row-cols-12'>
-          <div class='col-8'>
-            <p>Tell us your price range: <span id="demo"></span></p>
+    
+    
+    <form action='/game/<%=game.listing_id%>?_method=PUT' method='POST'>
+      <div class="form-group row">
+          <label for='gameID' class='col-sm-4 col-form-label'>Game ID: </label>
+          <div class='col-sm-4'>
+            <input type='text' class='Form-control' id='Title' name='Title' value='<%=game.listing_id%>' disabled>
           </div>
-          <div class='col-4'>
-            <button type="submit" class="btn btn-primary">Search</button>
-          </div>
-          
-        </div>
       </div>
+      <div class="form-group row">
+          <label for='gameID' class='col-sm-4 col-form-label'>Title: </label>
+          <div class='col-sm-4'>
+            <input type='text' class='Form-control' id='Title' name='Title' placeholder='<%=game.title%>' required>
+          </div>
+      </div>
+      <div class="form-group row">
+          <label for='gameID' class='col-sm-4 col-form-label'>Genre: </label>
+          <div class='col-sm-4'>
+            <input type='text' class='Form-control' id='Genre' name='Genre' placeholder='<%=game.genre%>' required>
+          </div>
+      </div>
+      <div class="form-group row">
+          <label for='gameID' class='col-sm-4 col-form-label'>Price: </label>
+          <div class='col-sm-4'>
+            <input type='text' class='Form-control' id='Price' name='Price' placeholder='<%=game.price%>' required>
+          </div>
+      </div>  
       
-      <script>
-          var slider = document.getElementById("myRange");
-          var output = document.getElementById("demo");
-          output.innerHTML = slider.value;
-          
-          slider.oninput = function() {
-            output.innerHTML = this.value;
-          }
-      </script>
-    </form>
-
-      <div id="product-grid" class="item-holder m-5 p-3">
-        <% if (typeof games == 'object' && games) { %>
-        <% games.forEach(function(game) { %>
-                <figure class="store-item">
-                    <img class="thumbnail" src="<%= game.image_url %>" alt="game image"/>
-                    <figcaption class="game-caption">
-                        <p><%= game.title %></p>
-                    </figcaption>
-                    <br>
-                </figure>
-        <% }) %>
+      <nav class="navbar sticky-top">
   
-        <% } %>
-      </div> 
+      <button class='btn btn-primary'> Update Game</button>
+      
+      <div class="ml-auto">
+        <a type="button" class="btn btn-danger" href='/game/<%=game.listing_id%>'>Cancel</a>
+      </div>
+
+  </nav>
+      
+    </form>
+    
+    
+    
+
+    <div class="container-fluid">
+                <div class="row">
+                    <% games.forEach(function(games) { %>
+                    <div class="col-3 col-md-2 col-lg-2 mb-2">
+                        <div class="card" style="width: 100%;">
+                            <img class="card-img-top" src="<%= games.image_url %>" alt="Card image cap">
+                            <div class="card-body">
+                                <h5 class="card-title"><%= games.title %></h5>
+                                <p class="card-text">$<%= games.price %> </p>
+                            </div>
+                        </div>
+                    </div>
+                    <% }) %>
+                </div>    
+        </div>  
+    
+   
+
+      
 
   </div>
 

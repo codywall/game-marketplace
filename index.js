@@ -3,14 +3,20 @@
 var bodyParser = require('body-parser');
 var express = require('express');
 var app = express();
+app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.json());
 var request = require('request');
 var mysql = require('mysql'); 
 var session = require('express-session');
 var bcrypt = require('bcrypt');
+<<<<<<< HEAD
 var lookupRouter = require('./lookup');
 
 
 
+=======
+var methodOverride = require('method-override');
+>>>>>>> 7a7849cc2425ed6ac2862ea3b225968e2cbc8831
 
 /* Start the application server */
 app.listen(process.env.PORT || 8080, process.env.IP, function () {
@@ -18,9 +24,10 @@ app.listen(process.env.PORT || 8080, process.env.IP, function () {
 });
 
 /* Configure our server to read public folder and ejs files */
-app.use(bodyParser.urlencoded());
-app.use(bodyParser.json());
+
+
 app.use(express.static('public'));
+app.use(methodOverride('_method'));
 app.use(session({
   secret:"top secret!",
   resave: true,
@@ -32,18 +39,43 @@ app.set('view engine', 'ejs');
 
 /* The handler for the DEFAULT route */
 app.get('/', async function (req, res) {
-  let num1 = Math.floor(Math.random() * Math.floor(388570));
-  let num2 = Math.floor(Math.random() * Math.floor(388570));
-  let num3 = Math.floor(Math.random() * Math.floor(388570));
-  let num4 = Math.floor(Math.random() * Math.floor(388570));
-  let num5 = Math.floor(Math.random() * Math.floor(388570));
-  let url = `https://api.rawg.io/api/games?search=${num1}`;
-  console.log(url);
   let games = await getAllGames();
-  res.render('index', {num1: num1, num2: num2, num3: num3, num4: num4, num5: num5, "games": games});
+  console.log('fetching all games...')
+  res.render("index", {"games": games});
 
 });
 
+app.get('/title',  async function(req, res){
+             
+             let title = req.query.title;
+             let games = await getGamebyTitle(title);
+             console.log("titles: " + games);
+             console.log("fetching games by title...");
+             res.render("index", {"games": games});
+             
+  //var stmt = 'SELECT * FROM listings WHERE title=\'' + req.body.title + '%\';';
+});
+
+<<<<<<< HEAD
+=======
+app.get('/genre', async function(req, res){
+  let genre = req.query.genre;
+  let games = await getGamebyGenre(genre);
+  console.log("titles: " + games);
+  console.log("fethcing games by genre...");
+  res.render("index", {"games": games});
+});
+
+app.get('/price', async function(req, res){
+  let range = req.query.myRange;
+  let games = await getGamebyPrice(range);
+  console.log(games);
+  console.log(range);
+  res.render("index", {"games": games});
+});
+
+
+>>>>>>> 7a7849cc2425ed6ac2862ea3b225968e2cbc8831
 
 app.get('/login', function (req, res) {
   res.render('login');
@@ -56,7 +88,7 @@ app.get('/createAccount', function (req, res) {
 app.get('/admin', async function(req,res){
   let user = req.session.user;
   let games = await getGames(user);
-  console.log(games)
+  console.log(games);
    res.render('admin', {"games": games, "user": user});
    console.log("USER: " + user);
 });
@@ -67,13 +99,60 @@ app.get("/logout", function(req,res){
   req.session.destroy();
 });
 
+app.get('/game/:listing_id/edit', async function (req, res) {
+   let user = req.session.user; //to get current user
+  let games = await getGames(user); //to put images
+  console.log("games:" + games)
+  let conn = dbConnection();
+  var stmt = 'SELECT * FROM listings WHERE listing_id=' + req.params.listing_id + ';';
+  conn.query(stmt, function(error, result){
+    if(error) throw error;
+    if(result.length){
+      var game = result[0];
+      //game.title = game.
+      //game.price
+    }
+      res.render('edit', {game: game, "user": user, "games": games});
+    
+  });
+});
+
+app.put('/game/:listing_id', function(req, res){
+  console.log(req.body);
+  console.log(req.body.title);
+  let conn = dbConnection();
+  
+  var stmt = 'UPDATE listings SET ' + 
+             'title = "' + req.body.Title + '",' +
+             'genre = "' + req.body.Genre + '",' +
+             'price = "' + req.body.Price + '"' +
+             'WHERE listing_id = ' + req.params.listing_id + ";";
+  
+  conn.query(stmt, function(error, result){
+    if(error) throw error;
+    res.redirect('/admin');
+  });
+});
+
+app.get('/game/:listing_id/delete', function(req, res){
+    var stmt = 'DELETE FROM listings WHERE listing_id =' + req.params.listing_id + ';';
+    let conn = dbConnection();
+    conn.query(stmt, function(error, result){
+      if(error) throw error;
+      res.redirect('/admin');
+    });
+});
+
+
+
 app.get('/addGame', function(req, res){
 	let game = req.query.search;
-	const url = `https://api.rawg.io/api/games?search=${game}`;
+  let user = req.session.user;
+	const url = `https://api.rawg.io/api/games?search=${game ? game : ''}`;
 	request(url, function(error, response, data){
-		if (!error && response.statusCode == 200){
+    if (!error && response.statusCode == 200) {
 			data = JSON.parse(data);
-			res.render('addGame', {games: data.results});
+			res.render('addGame', {"games": data.results, "user": user});
 		}
 	});
 });
@@ -82,11 +161,15 @@ app.get('/addGame', function(req, res){
 app.post("/addGame", async function(req, res){
   let rows = await insertGame(req.body);
   console.log(rows);
-  let message = "Listing was not added to the database.";
+  let message = { text: "Listing was not added to the database." };
+  message.success = false;
   if (rows.affectedRows > 0) {
-    message= "Listing successfully added!";
+    message.text = "Listing successfully added!";
+    message.success = true;
   }
-  res.render("addGame");
+  let games = await getGames(req.body.username);
+  console.log('fetching your games...')
+  res.render("admin", {"games": games, "message": message});
 });
 
 function getAllGames() {
@@ -96,7 +179,8 @@ function getAllGames() {
           if (err) throw err;
           console.log("Connected!"); 
          let sql = `SELECT *
-                       FROM listings`;  
+                    FROM listings
+                    ORDER BY listing_id DESC`;  
           conn.query(sql, function (err, rows) {
              if (err) throw err;
              conn.end();
@@ -114,7 +198,8 @@ function getGames(user) {
             console.log("Connected!"); 
            let sql = `SELECT *
                          FROM listings
-                         WHERE seller_username LIKE '${user}'`;  
+                         WHERE seller_username LIKE '${user}'
+                         ORDER BY listing_id DESC `;  
             conn.query(sql, function (err, rows) {
                if (err) throw err;
                conn.end();
@@ -122,6 +207,84 @@ function getGames(user) {
             });
          });
      });
+ }
+ 
+function getGamebyTitle(title){
+  let conn = dbConnection();
+     return new Promise(function(resolve, reject){
+         conn.connect(function(err) {
+            if (err) throw err;
+            console.log("Connected!"); 
+           let sql = `SELECT *
+                         FROM listings
+                         WHERE title LIKE '${title}'
+                         ORDER BY listing_id DESC `;  
+            conn.query(sql, function (err, rows) {
+               if (err) throw err;
+               conn.end();
+               resolve(rows);
+            });
+         });
+     });
+}
+
+function getGamebyGenre(genre){
+  let conn = dbConnection();
+     return new Promise(function(resolve, reject){
+         conn.connect(function(err) {
+            if (err) throw err;
+            console.log("Connected!"); 
+           let sql = `SELECT *
+                         FROM listings
+                         WHERE genre LIKE '${genre}'
+                         ORDER BY listing_id DESC `;  
+            conn.query(sql, function (err, rows) {
+               if (err) throw err;
+               conn.end();
+               resolve(rows);
+            });
+         });
+     });
+}
+
+function getGamebyPrice(price){
+  let conn = dbConnection();
+     return new Promise(function(resolve, reject){
+         conn.connect(function(err) {
+            if (err) throw err;
+            console.log("Connected!"); 
+           let sql = `SELECT *
+                         FROM listings
+                         WHERE price BETWEEN 0 AND '${price}'
+                         ORDER BY listing_id DESC `;  
+            conn.query(sql, function (err, rows) {
+               if (err) throw err;
+               conn.end();
+               resolve(rows);
+            });
+         });
+     });
+}
+ 
+ function getSingleGame(user, game){
+   let conn = dbConnection();
+   return new Promise(function(resolve, reject){
+     conn.connect(function(err){
+       if(err) throw err;
+       console.log("Connected");
+       let sql = `Select *
+                    From listings
+                    Where seller_username LIKE '${user}'
+                    and title LIKE '${game}'`;
+       conn.query(sql, function(err, rows){
+         if(err) throw err;
+         conn.end();
+         console.log(resolve);
+         resolve(rows);
+       });
+      
+     });
+   });
  }
 
 function insertGame(body){
@@ -240,8 +403,14 @@ app.post("/login", async function(req,res){
     let num5 = Math.floor(Math.random() * Math.floor(388570));
     let url = `https://api.rawg.io/api/games?search=${num1}`;
     console.log(url);
+<<<<<<< HEAD
   let games = await getAllGames();
   res.render('index', {num1: num1, num2: num2, num3: num3, num4: num4, num5: num5, "games": games});
+=======
+    let games = await getAllGames();
+    let name = await getAllGames();
+    res.render('index', {num1: num1, num2: num2, num3: num3, num4: num4, num5: num5, "games": games});
+>>>>>>> 7a7849cc2425ed6ac2862ea3b225968e2cbc8831
     
   }else{
     res.render("login",{error:true});
@@ -283,3 +452,8 @@ function isAuthenticated(req, res, next){
   else next();
 }
 
+<<<<<<< HEAD
+=======
+
+ //<img class="thumbnail" src="<%= game.image_url %>" alt="game image"/>
+>>>>>>> 7a7849cc2425ed6ac2862ea3b225968e2cbc8831
