@@ -365,11 +365,6 @@ app.post("/login", async function(req,res){
     req.session.authenticated = true;
     req.session.user = req.body.username;
 
-    
-
-    let url = `https://api.rawg.io/api/games?search=${num1}`;
-    console.log(url);
-
   let games = await getAllGames();
   res.render('index', { "games": games});
 
