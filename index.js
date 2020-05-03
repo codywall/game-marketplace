@@ -95,7 +95,8 @@ function getAllGames() {
           if (err) throw err;
           console.log("Connected!"); 
          let sql = `SELECT *
-                       FROM listings`;  
+                    FROM listings
+                    ORDER BY listing_id DESC`;  
           conn.query(sql, function (err, rows) {
              if (err) throw err;
              conn.end();
@@ -113,7 +114,8 @@ function getGames(user) {
             console.log("Connected!"); 
            let sql = `SELECT *
                          FROM listings
-                         WHERE seller_username LIKE '${user}'`;  
+                         WHERE seller_username LIKE '${user}'
+                         ORDER BY listing_id DESC `;  
             conn.query(sql, function (err, rows) {
                if (err) throw err;
                conn.end();
