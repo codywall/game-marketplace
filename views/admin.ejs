@@ -58,7 +58,6 @@
                             <div class="card-body">
                                 <h5 class="card-title"><%= game.title %></h5>
                                 <p class="card-text">$<%= game.price %> </p>
-                                <p class="card-text"><%= game.listing_id %> </p>
                                 <div class="btn-group" role="group">
                                     <a class="btn btn-primary" href='/game/<%=game.listing_id%>/edit'>Edit</a>
                                     <a class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this item?');" href='/game/<%=game.listing_id%>/delete'>Delete!</a>
