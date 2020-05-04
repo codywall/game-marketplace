@@ -33,9 +33,13 @@
     />
 
     <!-- Custom styles for this template -->
+<<<<<<< HEAD
     
     <link href="css/index.css" rel="stylesheet" type="text/css" />
     
+=======
+    <link href="css/index.css" rel="stylesheet" type="text/css" />
+>>>>>>> 23a1fee55d0547d82726b50e06fbe0f154142494
     <link href="css/cart.css" rel="stylesheet" type="text/css" />
   <script>
   
@@ -50,16 +54,17 @@
    console.log("status called");
   if (data == "in") {
     $('#logout_button').toggle();
+  
   }
   else {
     $('#login_button').toggle();
+
     
   }  
 }
   });
  
 });
-  
 
  
 </script>
@@ -173,9 +178,10 @@
               <div class="card-body">
                 <h5 class="card-title"><%= game.title %></h5>
                 <p class="card-text">$<%= game.price %></p>
-                <div class="btn-group" role="group">
+                <div class="btn-group"role="group" >
                   <a
-                    class="btn btn-success"
+                    class="btn btn-success" 
+               
                     onclick="return confirm('Are you sure you want to buy this game?');"
                     href="/game/<%=game.listing_id%>/buy"
                     >Buy</a

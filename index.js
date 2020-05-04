@@ -11,7 +11,7 @@ var session = require('express-session');
 var bcrypt = require('bcrypt');
 var lookupRouter = require('./lookup');
 var methodOverride = require('method-override');
-var isLogedin = require("./isLogedin");
+var isLogedin = require('./isLogedin');
 
 /* Start the application server */
 app.listen(process.env.PORT || 8080, process.env.IP, function () {
@@ -30,8 +30,8 @@ app.use(
 );
 app.use('/lookup', lookupRouter);
 
-app.use("/isLogedin",isLogedin);
-app.use(express.urlencoded({extended: true}));
+app.use('/isLogedin', isLogedin);
+app.use(express.urlencoded({ extended: true }));
 
 app.set('view engine', 'ejs');
 
@@ -75,16 +75,13 @@ app.get('/createAccount', function (req, res) {
   res.render('createAccount');
 });
 
-
-
-app.get('/admin', isAuthenticated,async function (req, res) {
+app.get('/admin', isAuthenticated, async function (req, res) {
   let user = req.session.user;
   let games = await getGames(user);
   console.log(games);
   res.render('admin', { games: games, user: user });
   console.log('USER: ' + user);
 });
-
 
 app.get('/logout', function (req, res) {
   console.log('user has been logged out!');
@@ -137,9 +134,17 @@ app.put('/game/:listing_id', function (req, res) {
 });
 
 app.get('/game/:listing_id/delete', function (req, res) {
+<<<<<<< HEAD
   var stmt =
     'DELETE FROM listings WHERE listing_id =' + req.params.listing_id + ';';
     
+=======
+  var stmt = `INSERT INTO sold (listing_id)
+              FROM listings 
+              WHERE listing_id =' + req.params.listing_id + '
+              DELETE FROM listings
+              WHERE listing_id =' + req.params.listing_id + ';`;
+>>>>>>> 23a1fee55d0547d82726b50e06fbe0f154142494
   let conn = dbConnection();
   conn.query(stmt, function (error, result) {
     if (error) throw error;
@@ -148,6 +153,7 @@ app.get('/game/:listing_id/delete', function (req, res) {
   });
 });
 
+<<<<<<< HEAD
 app.get('/game/:listing_id/buy', function (req, res) {
   // var stmt =
   //   'DELETE FROM listings WHERE listing_id =' + req.params.listing_id + ';';
@@ -163,6 +169,11 @@ app.get('/game/:listing_id/buy', function (req, res) {
               WHERE listing_id =${req.params.listing_id};`;
   let stmt2 = `DELETE FROM listings
               WHERE listing_id =${req.params.listing_id};`;
+=======
+app.get('/game/:listing_id/buy', isAuthenticated,async  function (req, res) {
+  var stmt =
+    'DELETE FROM listings WHERE listing_id =' + req.params.listing_id + ';';
+>>>>>>> 23a1fee55d0547d82726b50e06fbe0f154142494
   let conn = dbConnection();
   conn.query(stmt, function (error, result) {
     if (error) throw error;
@@ -175,8 +186,7 @@ app.get('/game/:listing_id/buy', function (req, res) {
 });
 
 
-
-app.get('/addGame',isAuthenticated, function (req, res) {
+app.get('/addGame', isAuthenticated, function (req, res) {
   let game = req.query.search;
 
   let user = req.session.user;
@@ -240,7 +250,6 @@ function getGames(user) {
 }
 
 function getGamebyTitle(title) {
-
   let conn = dbConnection();
   return new Promise(function (resolve, reject) {
     conn.connect(function (err) {
@@ -364,20 +373,18 @@ app.post('/createAccount', async function (req, res) {
   let conn = dbConnection();
   let salt = 10;
 
-  let passwordMatch = await compare(password,repeatPassword);
-  console.log("account created");
-  if(passwordMatch){
-    bcrypt.hash(password,salt,function(error,hash){
-    if(error) throw error;
-          var stmt='INSERT INTO users (first_name ,last_name ,username , password) VALUES (?,?,?,?)';
-          var data = [name,lastName,username,hash];
-          conn.query(stmt,data,function(error,result){
-              if(error) throw error;
-              res.redirect("/login");
-              
-          });
-          
-
+  let passwordMatch = await compare(password, repeatPassword);
+  console.log('account created');
+  if (passwordMatch) {
+    bcrypt.hash(password, salt, function (error, hash) {
+      if (error) throw error;
+      var stmt1 =
+        'INSERT INTO users (first_name ,last_name ,username , password) VALUES (?,?,?,?)';
+      var data1 = [name, lastName, username, hash];
+      conn.query(stmt, data, function (error, result) {
+        if (error) throw error;
+        res.redirect('/login');
+      });
     });
   } else {
     res.render('createAccount', { error: true });
