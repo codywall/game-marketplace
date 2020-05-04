@@ -48,16 +48,17 @@
    console.log("status called");
   if (data == "in") {
     $('#logout_button').toggle();
+  
   }
   else {
     $('#login_button').toggle();
+
     
   }  
 }
   });
  
 });
-  
 
  
 </script>
@@ -171,9 +172,10 @@
               <div class="card-body">
                 <h5 class="card-title"><%= game.title %></h5>
                 <p class="card-text">$<%= game.price %></p>
-                <div class="btn-group" role="group">
+                <div class="btn-group"role="group" >
                   <a
-                    class="btn btn-success"
+                    class="btn btn-success" 
+               
                     onclick="return confirm('Are you sure you want to buy this game?');"
                     href="/game/<%=game.listing_id%>/buy"
                     >Buy</a
