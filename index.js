@@ -134,17 +134,9 @@ app.put('/game/:listing_id', function (req, res) {
 });
 
 app.get('/game/:listing_id/delete', function (req, res) {
-<<<<<<< HEAD
   var stmt =
     'DELETE FROM listings WHERE listing_id =' + req.params.listing_id + ';';
     
-=======
-  var stmt = `INSERT INTO sold (listing_id)
-              FROM listings 
-              WHERE listing_id =' + req.params.listing_id + '
-              DELETE FROM listings
-              WHERE listing_id =' + req.params.listing_id + ';`;
->>>>>>> 23a1fee55d0547d82726b50e06fbe0f154142494
   let conn = dbConnection();
   conn.query(stmt, function (error, result) {
     if (error) throw error;
@@ -153,15 +145,7 @@ app.get('/game/:listing_id/delete', function (req, res) {
   });
 });
 
-<<<<<<< HEAD
 app.get('/game/:listing_id/buy', function (req, res) {
-  // var stmt =
-  //   'DELETE FROM listings WHERE listing_id =' + req.params.listing_id + ';';
-  // let conn = dbConnection();
-  // conn.query(stmt, function (error, result) {
-  //   if (error) throw error;
-  //   res.redirect('/');
-  // });
   
   var stmt = `INSERT INTO sold (listing_id)
               SELECT listing_id
@@ -169,11 +153,6 @@ app.get('/game/:listing_id/buy', function (req, res) {
               WHERE listing_id =${req.params.listing_id};`;
   let stmt2 = `DELETE FROM listings
               WHERE listing_id =${req.params.listing_id};`;
-=======
-app.get('/game/:listing_id/buy', isAuthenticated,async  function (req, res) {
-  var stmt =
-    'DELETE FROM listings WHERE listing_id =' + req.params.listing_id + ';';
->>>>>>> 23a1fee55d0547d82726b50e06fbe0f154142494
   let conn = dbConnection();
   conn.query(stmt, function (error, result) {
     if (error) throw error;
