@@ -34,6 +34,7 @@
         $.ajax({ type: "get",
         url: `/lookup/username/${username}`,
       success: function(data,status) {
+           console.log(data);
   if (data == "Available") {
     $("#usernameValidation").html("Available!");
     $("#usernameValidation").css("color","green");

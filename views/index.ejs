@@ -23,16 +23,45 @@
   <!-- Custom styles for this template -->
   <<link  href="css/index.css"rel="stylesheet" type="text/css" />
   <<link  href="css/cart.css"rel="stylesheet" type="text/css" />
+  
+  
+  <script>
+  
+  $( document ).ready(function() {
+ 
+    $.ajax({
+      type: "get",
+      url: `/isLogedin`,
+    success: function(data,status) {
+  console.log(data);
+  console.log(status);
+   console.log("status called");
+  if (data == "in") {
+    $('#logout_button').toggle();
+  }
+  else {
+    $('#login_button').toggle();
+    
+  }  
+}
+  });
+ 
+});
+  
+
+ 
+</script>
 
 
 </head>
 
-<body>
+<body >
+  
   <nav class="navbar sticky-top" style="background-color: #e3f2fd;">
-
-    <a type="button" class="btn btn-outline-secondary" href="/cart">Shopping Cart</a>
-    <div class="ml-auto">
+    
       <a type="button" class="btn btn-outline-secondary" href="/login" id="login_button">Log in</a>
+    </div>
+    <a type="button" class="btn btn-outline-secondary" href="/logout" id="logout_button">Log out</a>
     </div>
     <div class="ml-auto">
       <a type="button" class="btn btn-outline-secondary" href="/admin" id="admin_page">Admin Page</a>

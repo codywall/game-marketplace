@@ -11,6 +11,7 @@ var session = require('express-session');
 var bcrypt = require('bcrypt');
 var lookupRouter = require('./lookup');
 var methodOverride = require('method-override');
+var isLogedin = require("./isLogedin");
 
 
 /* Start the application server */
@@ -27,6 +28,7 @@ app.use(session({
   saveUnitialized:true
 }));
 app.use('/lookup', lookupRouter);
+app.use("/isLogedin",isLogedin);
 app.use(express.urlencoded({extended: true}));
 app.set('view engine', 'ejs');
 
@@ -74,10 +76,10 @@ app.get('/createAccount', function (req, res) {
   res.render('createAccount');
 });
 
-app.get('/admin', async function(req,res){
+app.get('/admin',isAuthenticated, async function(req,res){
   let user = req.session.user;
   let games = await getGames(user);
-  console.log(games)
+  console.log(games);
    res.render('admin', {"games": games, "user": user});
    console.log("USER: " + user);
 });
@@ -146,8 +148,6 @@ app.get('/addGame', function(req, res){
 		}
 	});
 });
-
-
 app.post("/addGame", async function(req, res){
   let rows = await insertGame(req.body);
   console.log(rows);
@@ -173,7 +173,6 @@ function getAllGames() {
        });
    });
 }
-
 function getGames(user) {
     let conn = dbConnection();
      return new Promise(function(resolve, reject){
@@ -196,7 +195,7 @@ function getGames(user) {
 /////////////////////////////////////////////////////////////////////////
 
 
-app.get('/addGame', function(req, res){
+app.get('/addGame',isAuthenticated, function(req, res){
 	let game = req.query.search;
   let user = req.session.user;
 	const url = `https://api.rawg.io/api/games?search=${game ? game : ''}`;
@@ -260,7 +259,6 @@ function getGames(user) {
      });
  }
  
-//////////////////////////////////////////////////////
 function getGamebyTitle(title){
   let conn = dbConnection();
      return new Promise(function(resolve, reject){
@@ -393,11 +391,11 @@ app.post("/createAccount",async function (req,res){
   let conn = dbConnection();
   let salt = 10;
 
-      let passwordMatch = await compare(password,repeatPassword);
-      console.log("account created");
-      if(passwordMatch){
-      bcrypt.hash(password,salt,function(error,hash){
-          if(error) throw error;
+  let passwordMatch = await compare(password,repeatPassword);
+  console.log("account created");
+  if(passwordMatch){
+    bcrypt.hash(password,salt,function(error,hash){
+    if(error) throw error;
           var stmt='INSERT INTO users (first_name ,last_name ,username , password) VALUES (?,?,?,?)';
           var data = [name,lastName,username,hash];
           conn.query(stmt,data,function(error,result){
@@ -632,5 +630,3 @@ function isAuthenticated(req, res, next){
   if(!req.session.authenticated) res.redirect("/login");
   else next();
 }
-
-

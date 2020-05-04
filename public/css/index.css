@@ -96,3 +96,12 @@ figcaption, figure{
   background: blue;
   cursor: pointer;
 }
+#login_button{
+   
+    display:none;
+}
+#logout_button{
+   
+    display:none;
+}
+
