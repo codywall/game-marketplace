@@ -146,7 +146,7 @@ app.get('/game/:listing_id/delete', function (req, res) {
   });
 });
 
-app.get('/game/:listing_id/buy', function (req, res) {
+app.get('/game/:listing_id/buy', isAuthenticated,async  function (req, res) {
   var stmt =
     'DELETE FROM listings WHERE listing_id =' + req.params.listing_id + ';';
   let conn = dbConnection();
