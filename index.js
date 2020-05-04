@@ -139,80 +139,41 @@ app.put('/game/:listing_id', function (req, res) {
 app.get('/game/:listing_id/delete', function (req, res) {
   var stmt =
     'DELETE FROM listings WHERE listing_id =' + req.params.listing_id + ';';
+    
   let conn = dbConnection();
   conn.query(stmt, function (error, result) {
     if (error) throw error;
+    
     res.redirect('/admin');
   });
 });
 
 app.get('/game/:listing_id/buy', function (req, res) {
-  var stmt =
-    'DELETE FROM listings WHERE listing_id =' + req.params.listing_id + ';';
+  // var stmt =
+  //   'DELETE FROM listings WHERE listing_id =' + req.params.listing_id + ';';
+  // let conn = dbConnection();
+  // conn.query(stmt, function (error, result) {
+  //   if (error) throw error;
+  //   res.redirect('/');
+  // });
+  
+  var stmt = `INSERT INTO sold (listing_id)
+              SELECT listing_id
+              FROM listings 
+              WHERE listing_id =${req.params.listing_id};`;
+  let stmt2 = `DELETE FROM listings
+              WHERE listing_id =${req.params.listing_id};`;
   let conn = dbConnection();
   conn.query(stmt, function (error, result) {
     if (error) throw error;
+  });
+  conn.query(stmt2, function (error, result) {
+    if (error) throw error;
     res.redirect('/');
   });
+  
 });
 
-//might have to change/////////////////////////////////////////////
-/*
-app.get('/addGame', function(req, res){
-	let game = req.query.search;
-	const url = `https://api.rawg.io/api/games?search=${game}`;
-	request(url, function(error, response, data){
-		if (!error && response.statusCode == 200){
-			data = JSON.parse(data);
-			res.render('addGame', {games: data.results});
-		}
-	});
-});
-app.post("/addGame", async function(req, res){
-  let rows = await insertGame(req.body);
-  console.log(rows);
-  let message = "Listing was not added to the database.";
-  if (rows.affectedRows > 0) {
-    message= "Listing successfully added!";
-  }
-  res.render("addGame");
-});
-function getAllGames() {
-  let conn = dbConnection();
-   return new Promise(function(resolve, reject){
-       conn.connect(function(err) {
-          if (err) throw err;
-          console.log("Connected!"); 
-         let sql = `SELECT *
-                       FROM listings`;  
-          conn.query(sql, function (err, rows) {
-             if (err) throw err;
-             conn.end();
-             resolve(rows);
-          });
-       });
-   });
-}
-function getGames(user) {
-    let conn = dbConnection();
-     return new Promise(function(resolve, reject){
-         conn.connect(function(err) {
-            if (err) throw err;
-            console.log("Connected!"); 
-           let sql = `SELECT *
-                         FROM listings
-                         WHERE seller_username LIKE '${user}'
-                         ORDER BY listing_id DESC `;  
-            conn.query(sql, function (err, rows) {
-               if (err) throw err;
-               conn.end();
-               resolve(rows);
-            });
-         });
-     });
- }
- */
-/////////////////////////////////////////////////////////////////////////
 
 
 app.get('/addGame',isAuthenticated, function (req, res) {
