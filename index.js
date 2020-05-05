@@ -93,7 +93,6 @@ app.get('/game/:listing_id/edit', async function (req, res) {
   let user = req.session.user; //to get current user
   let games = await getGames(user); //to put images
   console.log('games:' + games);
-  let conn = dbConnection();
   var stmt =
     'SELECT * FROM listings WHERE listing_id=' + req.params.listing_id + ';';
   conn.query(stmt, function (error, result) {
@@ -110,7 +109,6 @@ app.get('/game/:listing_id/edit', async function (req, res) {
 app.put('/game/:listing_id', function (req, res) {
   console.log(req.body);
   console.log(req.body.title);
-  let conn = dbConnection();
 
   var stmt =
     'UPDATE listings SET ' +
@@ -137,7 +135,6 @@ app.get('/game/:listing_id/delete', function (req, res) {
   var stmt =
     'DELETE FROM listings WHERE listing_id =' + req.params.listing_id + ';';
     
-  let conn = dbConnection();
   conn.query(stmt, function (error, result) {
     if (error) throw error;
     
@@ -153,7 +150,6 @@ app.get('/game/:listing_id/buy', function (req, res) {
               WHERE listing_id =${req.params.listing_id};`;
   let stmt2 = `DELETE FROM listings
               WHERE listing_id =${req.params.listing_id};`;
-  let conn = dbConnection();
   conn.query(stmt, function (error, result) {
     if (error) throw error;
   });
@@ -193,27 +189,19 @@ app.post('/addGame', async function (req, res) {
 });
 
 function getAllGames() {
-  let conn = dbConnection();
   return new Promise(function (resolve, reject) {
-    conn.connect(function (err) {
-      if (err) throw err;
       console.log('Connected!');
       let sql = `SELECT *
                     FROM listings
                     ORDER BY listing_id DESC`;
       conn.query(sql, function (err, rows) {
         if (err) throw err;
-        conn.end();
         resolve(rows);
       });
     });
-  });
 }
 function getGames(user) {
-  let conn = dbConnection();
   return new Promise(function (resolve, reject) {
-    conn.connect(function (err) {
-      if (err) throw err;
       console.log('Connected!');
       let sql = `SELECT *
                          FROM listings
@@ -221,37 +209,27 @@ function getGames(user) {
                          ORDER BY listing_id DESC `;
       conn.query(sql, function (err, rows) {
         if (err) throw err;
-        conn.end();
         resolve(rows);
       });
     });
-  });
 }
 
 function getGamebyTitle(title) {
-  let conn = dbConnection();
   return new Promise(function (resolve, reject) {
-    conn.connect(function (err) {
-      if (err) throw err;
       console.log('Connected!');
       let sql = `SELECT *
                          FROM listings
-                         WHERE title LIKE '${title}'
+                         WHERE title LIKE '%${title}%'
                          ORDER BY listing_id DESC `;
       conn.query(sql, function (err, rows) {
         if (err) throw err;
-        conn.end();
         resolve(rows);
       });
-    });
   });
 }
 
 function getGamebyGenre(genre) {
-  let conn = dbConnection();
   return new Promise(function (resolve, reject) {
-    conn.connect(function (err) {
-      if (err) throw err;
       console.log('Connected!');
       let sql = `SELECT *
                          FROM listings
@@ -259,18 +237,13 @@ function getGamebyGenre(genre) {
                          ORDER BY listing_id DESC `;
       conn.query(sql, function (err, rows) {
         if (err) throw err;
-        conn.end();
         resolve(rows);
       });
-    });
   });
 }
 
 function getGamebyPrice(price) {
-  let conn = dbConnection();
   return new Promise(function (resolve, reject) {
-    conn.connect(function (err) {
-      if (err) throw err;
       console.log('Connected!');
       let sql = `SELECT *
                          FROM listings
@@ -278,18 +251,13 @@ function getGamebyPrice(price) {
                          ORDER BY listing_id DESC `;
       conn.query(sql, function (err, rows) {
         if (err) throw err;
-        conn.end();
         resolve(rows);
       });
-    });
   });
 }
 
 function getSingleGame(user, game) {
-  let conn = dbConnection();
   return new Promise(function (resolve, reject) {
-    conn.connect(function (err) {
-      if (err) throw err;
       console.log('Connected');
       let sql = `Select *
                     From listings
@@ -297,30 +265,23 @@ function getSingleGame(user, game) {
                     and title LIKE '${game}'`;
       conn.query(sql, function (err, rows) {
         if (err) throw err;
-        conn.end();
         console.log(resolve);
         resolve(rows);
       });
     });
-  });
 }
 
 function insertGame(body) {
-  let conn = dbConnection();
   return new Promise(function (resolve, reject) {
-    conn.connect(function (err) {
-      if (err) throw err;
       console.log('Connected!: insertGame');
       let sql = `INSERT INTO listings
                         (title, genre, image_url, price, seller_username)
                          VALUES ('${body.title}', '${body.genre}', '${body.imageURL}', ${body.price}, '${body.username}')`;
       conn.query(sql, function (err, rows, fields) {
         if (err) throw err;
-        conn.end();
         resolve(rows);
       });
     });
-  });
 }
 
 app.get('/cart', function (req, res) {
@@ -332,7 +293,7 @@ app.get('*', async function (req, res) {
   res.render('index', { games: games });
 });
 
-function dbConnection() {
+
   let conn = mysql.createConnection({
     host: 'un0jueuv2mam78uv.cbetxkdyhwsb.us-east-1.rds.amazonaws.com',
     user: 'hltrq8vzmqp59xkg',
@@ -340,8 +301,7 @@ function dbConnection() {
     database: 'test',
   }); //createConnection
 
-  return conn;
-}
+conn.connect();
 
 app.post('/createAccount', async function (req, res) {
   let username = req.body.username;
@@ -349,7 +309,6 @@ app.post('/createAccount', async function (req, res) {
   let name = req.body.firstName;
   let lastName = req.body.lastName;
   let repeatPassword = req.body.repeatPassword;
-  let conn = dbConnection();
   let salt = 10;
 
   let passwordMatch = await compare(password, repeatPassword);
@@ -400,7 +359,6 @@ app.post('/login', async function (req, res) {
 
 function userexist(username) {
   let stmt = 'SElECT * FROM users where username=?';
-  let conn = dbConnection();
   return new Promise(function (resolve, reject) {
     conn.query(stmt, [username], function (error, results) {
       if (error) throw error;
@@ -424,21 +382,16 @@ function isAuthenticated(req, res, next) {
 }
 
 function insertGame(body) {
-  let conn = dbConnection();
   return new Promise(function (resolve, reject) {
-    conn.connect(function (err) {
-      if (err) throw err;
       console.log('Connected!: insertGame');
       let sql = `INSERT INTO listings
                         (title, genre, image_url, price, seller_username)
                          VALUES ('${body.title}', '${body.genre}', '${body.imageURL}', ${body.price}, '${body.username}')`;
       conn.query(sql, function (err, rows, fields) {
         if (err) throw err;
-        conn.end();
         resolve(rows);
       });
     });
-  });
 }
 
 app.get('/cart', function (req, res) {
@@ -449,16 +402,6 @@ app.get('*', async function (req, res) {
   let games = await getAllGames();
 });
 
-function dbConnection() {
-  let conn = mysql.createConnection({
-    host: 'un0jueuv2mam78uv.cbetxkdyhwsb.us-east-1.rds.amazonaws.com',
-    user: 'hltrq8vzmqp59xkg',
-    password: 'jwcyw01pmul3jelj',
-    database: 'test',
-  }); //createConnection
-
-  return conn;
-}
 
 app.post('/createAccount', async function (req, res) {
   let username = req.body.username;
@@ -466,7 +409,6 @@ app.post('/createAccount', async function (req, res) {
   let name = req.body.firstName;
   let lastName = req.body.lastName;
   let repeatPassword = req.body.repeatPassword;
-  let conn = dbConnection();
   let salt = 10;
 
   let passwordMatch = await compare(password, repeatPassword);
@@ -517,7 +459,6 @@ app.post('/login', async function (req, res) {
 
 function userexist(username) {
   let stmt = 'SElECT * FROM users where username=?';
-  let conn = dbConnection();
   return new Promise(function (resolve, reject) {
     conn.query(stmt, [username], function (error, results) {
       if (error) throw error;
