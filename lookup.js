@@ -22,7 +22,8 @@ function userexist(username){
   return new Promise(function(resolve,reject){
     conn.query(stmt,[username],function(error, results) {
         if(error) throw error;
-        resolve(results);
+      resolve(results);
+      conn.destroy();
     });
     
   });
