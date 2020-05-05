@@ -360,7 +360,7 @@ app.post('/createAccount', async function (req, res) {
       var stmt1 =
         'INSERT INTO users (first_name ,last_name ,username , password) VALUES (?,?,?,?)';
       var data1 = [name, lastName, username, hash];
-      conn.query(stmt, data, function (error, result) {
+      conn.query(stmt1, data1, function (error, result) {
         if (error) throw error;
         res.redirect('/login');
       });
