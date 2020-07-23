@@ -1,28 +1,23 @@
-## Project members:
-Rodrigo Espinoza | Christian Jimenez | Cody Wall
-
 ## Project description:
-A platform for people to trade their video games to others. We use a video game database API (RAWG) to make it easy for people to list their games, auto filling the rest of the information once they type the title. Once a seller lists a game, buyers will be able to find it by searching available games.
+A platform for people to trade their video games to others. We use a video game database API (RAWG) to make it easy for people to list their games, auto filling the rest of the information once they type the title. Once a seller lists a game, buyers will be able to find it by searching available games, then buy it. In short, it allows the user to Create, Read, Update, and Delete listings from a database.
+
+This application was built using Node and Express. It is hosted on Heroku and uses a MariaDB database which we designed and implemented. This was a group project for the Internet Programming class at California State University, Monterey Bay.
 
 ## Description:
-Sellers will be able to: 
-Add video games they want to sell as listings
-Add / edit prices
-Delete their video game listings
-Buyers will be able to:
-Search listings by 3 fields: Genre, name, price
-View all information about the game listing, including value given by seller
+Sellers are able to: 
+- Create an account and log in with their credentials.
+- Add video games they want to sell as listings. Once the title of the game is entered, the rest of the information about the game is filled from the RAWG API.
+- Add / edit the prices and details of their listings from their personal listings dashboard.
+- Delete their video game listings.
+Buyers are able to:
+- Search and filter listings by 3 fields: genre, name, and price.
+- View all information about the game listing, including value given by seller.
+- "Purchase" the game, which removes it from the listings table using a trigger and adds it to a table of sold games.
 
-## User Stories
-As video game fans, we are looking to design and implement a user friendly web application that allows users to sell and buy video games based on genre, title, and price.
-•As a user I want to be able to have a username and password(to sign in and out of the web page).
-•As a user I would like to give information on the video game(so when video game being sold they have information on said video game).
-•As a user I want to be able to buy and sell(to be able to sell video games I own and buy video games I desire).
-•As a user would like to be able to update the prices in which the video games are being sold at(to be able to keep a fair price).
-•As a developer we would like to be able to give the user the ability to be able to sell and buy video games.
-•As a developer we would like to be able to give the user the ability to buy and sell games based on categories(so the user is able to set them to a category of genre, name, and price).
-•As a developer we would like to be able to give the user control over their list of video games they are selling(so that they are able to add or delete games they have already sold).
+## How to run
+1. To run the application, first clone it.
+2. Then, run `npm install` from the root folder to install all necessary dependencies.
+3. Run `node index.js` to start the application.
 
-As a video game listing, each listing:
-• is loaded as a thumbnail on the results page
-• once selected, a new view/page displays the video game along with all information, including the value given to it by the seller
+### Notes
+Since this was a school project, in the interest of helping our professor grade our database design, we hardcoded the database credentials into the index file. This is obviously not ideal for security reasons, and would not be exposed to version control in a production application.
