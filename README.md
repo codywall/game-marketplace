@@ -9,6 +9,8 @@ Sellers are able to:
 - Add video games they want to sell as listings. Once the title of the game is entered, the rest of the information about the game is filled from the RAWG API.
 - Add / edit the prices and details of their listings from their personal listings dashboard.
 - Delete their video game listings.
+
+
 Buyers are able to:
 - Search and filter listings by 3 fields: genre, name, and price.
 - View all information about the game listing, including value given by seller.
