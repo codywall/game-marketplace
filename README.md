@@ -21,5 +21,5 @@ Buyers are able to:
 2. Then, run `npm install` from the root folder to install all necessary dependencies.
 3. Run `node index.js` to start the application.
 
-### Notes
+## Notes
 Since this was a school project, in the interest of helping our professor grade our database design, we hardcoded the database credentials into the index file. This is obviously not ideal for security reasons, and would not be exposed to version control in a production application.
