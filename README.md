@@ -1,7 +1,7 @@
 ## Project description:
-A platform for people to trade their video games to others. We use a video game database API (RAWG) to make it easy for people to list their games, auto filling the rest of the information once they type the title. Once a seller lists a game, buyers will be able to find it by searching available games, then buy it. In short, it allows the user to Create, Read, Update, and Delete listings from a database.
+A platform for people to sell their video games to others. We use a video game database API (RAWG) to make it easy for people to list their games, autofilling the rest of the information once they type the title. Once a seller lists a game, buyers will be able to find it by browsing or searching available games. Once they find a game they like, they are able to buy it, removing it from the available games. In short, it allows the user to Create, Read, Update, and Delete listings from a database.
 
-This application was built using Node and Express. It is hosted on Heroku and uses a MariaDB database which we designed and implemented. This was a group project for the Internet Programming class at California State University, Monterey Bay.
+This application was built using Node and Express. It is hosted on Heroku and uses a MariaDB database which @codywall designed the schema for and implemented. This was a group project for the Internet Programming class at California State University, Monterey Bay.
 
 ## Description:
 Sellers are able to: 
