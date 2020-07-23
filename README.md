@@ -14,7 +14,7 @@ Sellers are able to:
 Buyers are able to:
 - Search and filter listings by 3 fields: genre, name, and price.
 - View all information about the game listing, including value given by seller.
-- "Purchase" the game, which removes it from the listings table using a trigger and adds it to a table of sold games.
+- "Purchase" the game, which removes it from the listings table and adds it to a table of sold games.
 
 ## How to run
 1. To run the application, first clone it.
